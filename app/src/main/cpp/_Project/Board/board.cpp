@@ -11,7 +11,6 @@ Board::Board(DrawTetromino* tetrominoRenderer, Camera* _camera)
  : tetrominoRenderer(tetrominoRenderer), camera(_camera),
    flashShader(ShaderManager::Get().GetShader("Flash")), particlesShader(ShaderManager::Get().GetShader("Particles"))
 {
-    //какашки
     Clear();
 }
 
