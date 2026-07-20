@@ -6,6 +6,7 @@
 #include "../Invoke/InvokeSystem.h"
 #include "../Shaders/ShaderManager.h"
 #include "../Audio/AudioManager.h"
+#include "../Score/HighScoreManager.h"
 #include "../Core/Config.h"
 #include "../Resources/resource_manager.h"
 
@@ -13,6 +14,7 @@ void Game::Start()
 {
     Engine::Get().PrintInfo("Game Start");
 
+    HighScoreManager::Get().Initialize();
     LoadTextures();
     LoadShaders();
     LoadSounds();

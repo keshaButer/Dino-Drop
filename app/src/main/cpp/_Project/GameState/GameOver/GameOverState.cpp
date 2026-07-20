@@ -6,6 +6,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <string>
 #include "../GameStateManager.h"
+#include "../Score/HighScoreManager.h"
 #include "../Gameplay/GameplayState.h"
 #include "../Audio/AudioManager.h"
 #include "../MainMenu/MainMenuState.h"
@@ -17,6 +18,11 @@ GameOverState::GameOverState(Camera* camera, StateData _data) : mainCamera(camer
 void GameOverState::Enter()
 {
     Engine::Get().PrintInfo("GameOverState: Enter");
+
+    if (data.Score > HighScoreManager::Get().GetBestScore())
+    {
+        HighScoreManager::Get().AddNewScore(data.Score);
+    }
 
     background = std::make_unique<Background>(ResourceManager::Get().GetTexture(Config::TextureNames::GAMEPLAY_BACKGROUND));
 

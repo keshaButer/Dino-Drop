@@ -34,6 +34,7 @@ public:
     float GetTime() const { return totalTime; }
     float GetDeltaTime() const { return deltaTime; }
     float GetUnscaledDeltaTime() const { return unscaledDeltaTime; }
+    const char* GetInternalDataPath() const { return app->activity->internalDataPath; }
     bool IsContextReady() const { return isContextReady; }
     float RandomRange(float a, float b);
     glm::vec2 WorldToScreen(glm::vec2 worldPos, const glm::mat4& cameraView);

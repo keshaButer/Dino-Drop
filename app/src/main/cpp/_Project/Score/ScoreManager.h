@@ -10,6 +10,8 @@ public:
 
     void Initialize(Board* board)
     {
+        Reset();
+
         board->OnLinesCleard.Subscribe([this](int lines) { this->AddScore(lines); });
     }
 
@@ -40,7 +42,6 @@ private:
         int scoreFromLines = baseAddition;
 
         currentScore += scoreFromLines;
-
         Engine::Get().PrintInfo("CURRENT SCORE HAS INCREASED: %i (Lines cleared: %i)", currentScore, fullLines);
     }
 
