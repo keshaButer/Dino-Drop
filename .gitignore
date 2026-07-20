@@ -1,0 +1,21 @@
+# Кэш Android Studio и Gradle
+.gradle/
+build/
+app/build/
+captures/
+.externalNativeBuild/
+.cxx/
+local.properties
+.idea/
+*.iml
+
+# Мусор компиляции Си++ и Gradle
+.DS_Store
+/build
+/captures
+*.bak
+*.user
+*.suo
+
+# Логи и временные файлы
+*.log

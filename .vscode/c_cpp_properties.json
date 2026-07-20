@@ -1,0 +1,19 @@
+{
+    "configurations": [
+        {
+            "name": "Android",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/home/kesha/Android/Sdk/ndk/28.2.13676358/sources/android/native_app_glue",
+                "/home/kesha/Android/Sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include",
+                "${workspaceFolder}/app/src/main/cpp/ThirdParty/freetype/include"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "linux-clang-arm"
+        }
+    ],
+    "version": 4
+}
