@@ -1,0 +1,10 @@
+# Говорим гитхабу полностью игнорировать эти папки при подсчете языков
+app/build/** linguist-documentation
+.gradle/** linguist-documentation
+gradle/** linguist-documentation
+.cxx/** linguist-documentation
+
+# Если у тебя в ассетах или где-то лежит много HTML, можно заглушить вообще все HTML файлы:
+*.html linguist-documentation
+*.css linguist-documentation
+*.js linguist-documentation
