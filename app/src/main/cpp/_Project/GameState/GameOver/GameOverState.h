@@ -9,7 +9,7 @@
 class GameOverState : public GameState
 {
 public:
-    GameOverState(Camera* camera);
+    GameOverState(Camera* camera, StateData data);
     void Enter() override;
     void Update(float deltaTime) override;
     void Exit() override;
@@ -23,4 +23,5 @@ private:
     Unique<Button> enterMenuButton;
     Unique<Background> background;
     Camera* const mainCamera;
+    StateData data;
 };

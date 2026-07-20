@@ -6,6 +6,7 @@
 #include "../Shaders/ShaderManager.h"
 #include "../GameState/GameStateManager.h"
 #include "../GameState/GameOver/GameOverState.h"
+#include "../Score/ScoreManager.h"
 #include "../Audio/AudioManager.h"
 #include "../Invoke/InvokeSystem.h"
 #include "../Pause/PauseManager.h"
@@ -39,7 +40,8 @@ void ActiveTetromino::SpawnPiece()
     {
         board->Clear();
         Engine::Get().PrintInfo("===GAME OVER==="); 
-        GameStateManager::Get().SetState(new GameOverState(camera));
+        StateData data { .Score = ScoreManager::Get().GetCurrentScore() };
+        GameStateManager::Get().SetState(new GameOverState(camera, data));
         return;
     }
 

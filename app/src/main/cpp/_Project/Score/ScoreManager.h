@@ -21,7 +21,7 @@ private:
 
     ScoreManager() = default;
 
-    int currentScore = 0;
+    uint currentScore = 0;
 
     void AddScore(int fullLines)
     {

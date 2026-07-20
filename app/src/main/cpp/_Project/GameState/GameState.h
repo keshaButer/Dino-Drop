@@ -1,5 +1,11 @@
 #pragma once
 
+struct StateData
+{
+public:
+    int Score = 0;
+};
+
 class GameState
 {
 

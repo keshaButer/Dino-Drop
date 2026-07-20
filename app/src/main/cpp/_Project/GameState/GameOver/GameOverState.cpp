@@ -4,13 +4,14 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <string>
 #include "../GameStateManager.h"
 #include "../Gameplay/GameplayState.h"
 #include "../Audio/AudioManager.h"
 #include "../MainMenu/MainMenuState.h"
 #include "../Core/Config.h"
 
-GameOverState::GameOverState(Camera* camera) : mainCamera(camera)
+GameOverState::GameOverState(Camera* camera, StateData _data) : mainCamera(camera), data(_data)
 {}
 
 void GameOverState::Enter()
@@ -23,7 +24,7 @@ void GameOverState::Enter()
     spriteRenderer = std::make_unique<SpriteRenderer>();
 
     enterMenuButton = std::make_unique<Button>(
-        glm::vec2(0.0f, -0.7f),
+        glm::vec2(0.0f, -1.2f),
         1.0f,
         0.5,
         "Menu",
@@ -33,7 +34,7 @@ void GameOverState::Enter()
     );
 
     restartButton = std::make_unique<Button>(
-        glm::vec2(0.0f, -1.2f),
+        glm::vec2(0.0f, -0.7f),
         1.0f,
         0.5f,
         "Restart",
@@ -54,7 +55,8 @@ void GameOverState::Update(float deltaTime)
     glClear(GL_COLOR_BUFFER_BIT);
 
     background->Draw();
-    fontRenderer->RenderText("Game Over", glm::vec2(0.0f), Config::UI::GAME_OVER_TEXT_SIZE, glm::vec4(1.0f));
+    fontRenderer->RenderText("Game Over", glm::vec2(0.0f, 1.0f), Config::UI::GAME_OVER_TEXT_SIZE, glm::vec4(1.0f));
+    fontRenderer->RenderText("Score: " + std::to_string(data.Score), glm::vec2(0.0f, 0.0f), Config::UI::SCORE_GAME_OVER_TEXT_SIZE, glm::vec4(1.0f));
 
     enterMenuButton->Update(deltaTime);
     enterMenuButton->Draw();

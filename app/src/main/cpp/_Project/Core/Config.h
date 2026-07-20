@@ -141,6 +141,7 @@ namespace Config
         inline constexpr float NEXT_TETROMINO_SCALE = 0.6f;
         inline constexpr float FONT_MULTIPLIER = 0.35f;
         inline constexpr float GAME_OVER_TEXT_SIZE = 1.1f;
+        inline constexpr float SCORE_GAME_OVER_TEXT_SIZE = 0.6f;
     }
 
     // Настройки звука
