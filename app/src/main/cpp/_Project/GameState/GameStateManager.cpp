@@ -3,6 +3,7 @@
 #include "../Engine/engine.h"
 #include "../Pause/PauseManager.h"
 #include "../Score/ScoreManager.h"
+#include "../Audio/AudioManager.h"
 
 void GameStateManager::SetState(GameState* gameState)
 {
@@ -15,7 +16,8 @@ void GameStateManager::ChangeState()
     mainCamera->ClearViewMatrix();
     Engine::Get().OnUIInput.Clear();
     Engine::Get().OnGameplayInput.Clear();
-    ScoreManager::Get().Clear();
+    ScoreManager::Get().Reset();
+    AudioManager::Get().Reset();
     PauseManager::Get().SetPaused(false);
 
     if (currentState != nullptr)

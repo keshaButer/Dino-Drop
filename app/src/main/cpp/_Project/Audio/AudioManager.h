@@ -14,6 +14,8 @@ public:
     void Initialize();
     void Exit();
 
+    void Reset();
+
     void PlayAudioClip(std::string_view viewName, bool loop = false, float volume = 1.0f, float pitch = 1.0f);
 
     void AddAudioClip(std::string name, AudioClip clip);

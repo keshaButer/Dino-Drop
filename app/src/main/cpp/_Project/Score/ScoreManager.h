@@ -15,7 +15,7 @@ public:
 
     int GetCurrentScore() const { return currentScore; }
 
-    void Clear() { currentScore = 0; }
+    void Reset() { currentScore = 0; }
 
 private:
 

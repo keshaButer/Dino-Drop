@@ -73,6 +73,11 @@ DataCallbackResult AudioManager::onAudioReady(AudioStream* oboeStream, void* aud
                     {
                         clip.isPlaying = true;
                     }
+                    else 
+                    {
+                        clip.currentVolume = 1.0f;
+                        clip.currentPitch = 1.0f;
+                    }
                 }
             }
         }
@@ -166,6 +171,19 @@ void AudioManager::LoadWavAudioClip(std::string_view viewName)
     delete[] rawBuffer;
     AAsset_close(asset);
 }
+
+void AudioManager::Reset()
+{
+    for (auto& [name, clip] : audioClips)
+    {
+        clip.isPlaying = false;
+        clip.isLooped = false;
+        clip.playbackIndex = 0.0f;
+        clip.currentVolume = 1.0f;
+        clip.currentPitch = 1.0f;
+    }
+}
+
 
 void AudioManager::Exit()
 {
