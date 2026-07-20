@@ -12,6 +12,7 @@ Board::Board(DrawTetromino* tetrominoRenderer, Camera* _camera)
    flashShader(ShaderManager::Get().GetShader("Flash")), particlesShader(ShaderManager::Get().GetShader("Particles"))
 {
     Clear();
+
 }
 
 void Board::Draw()
