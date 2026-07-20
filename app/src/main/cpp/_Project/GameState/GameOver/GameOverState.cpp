@@ -7,6 +7,7 @@
 #include "../GameStateManager.h"
 #include "../Gameplay/GameplayState.h"
 #include "../Audio/AudioManager.h"
+#include "../MainMenu/MainMenuState.h"
 #include "../Core/Config.h"
 
 GameOverState::GameOverState(Camera* camera) : mainCamera(camera)
@@ -16,11 +17,23 @@ void GameOverState::Enter()
 {
     Engine::Get().PrintInfo("GameOverState: Enter");
 
+    background = std::make_unique<Background>(ResourceManager::Get().GetTexture(Config::TextureNames::GAMEPLAY_BACKGROUND));
+
     fontRenderer = std::make_unique<FontRenderer>(Config::GetFontPathOTF("Base").c_str(), 128);
     spriteRenderer = std::make_unique<SpriteRenderer>();
 
+    enterMenuButton = std::make_unique<Button>(
+        glm::vec2(0.0f, -0.7f),
+        1.0f,
+        0.5,
+        "Menu",
+        spriteRenderer.get(),
+        fontRenderer.get(),
+        0.6f
+    );
+
     restartButton = std::make_unique<Button>(
-        glm::vec2(0.0f, -0.6f),
+        glm::vec2(0.0f, -1.2f),
         1.0f,
         0.5f,
         "Restart",
@@ -29,6 +42,7 @@ void GameOverState::Enter()
         0.6f
     );
 
+    enterMenuButton->onPress.Subscribe([this]() { GameStateManager::Get().SetState(new MainMenuState(mainCamera)); } );
     restartButton->onPress.Subscribe([this]() { GameStateManager::Get().SetState(new GameplayState(mainCamera)); } );
 
     AudioManager::Get().PlayAudioClip(Config::Sound::GAME_OVER_SOUND);
@@ -39,7 +53,12 @@ void GameOverState::Update(float deltaTime)
     glClearColor(1, 1, 1, 1);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    fontRenderer->RenderText("Game Over", glm::vec2(0.0f), Config::UI::GAME_OVER_TEXT_SIZE, glm::vec4(0, 0, 0, 1));
+    background->Draw();
+    fontRenderer->RenderText("Game Over", glm::vec2(0.0f), Config::UI::GAME_OVER_TEXT_SIZE, glm::vec4(1.0f));
+
+    enterMenuButton->Update(deltaTime);
+    enterMenuButton->Draw();
+
     restartButton->Update(deltaTime);
     restartButton->Draw();
 }

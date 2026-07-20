@@ -2,6 +2,7 @@
 #include "../GameState.h"
 #include "../../FontRenderer/FontRenderer.h"
 #include "../Camera/camera.h"
+#include "../Background/moving_background.h"
 #include "SmartPointers.h"
 #include "../Button/Button.h"
 
@@ -19,5 +20,7 @@ private:
     Unique<SpriteRenderer> spriteRenderer;
     Unique<FontRenderer> fontRenderer;
     Unique<Button> restartButton;
+    Unique<Button> enterMenuButton;
+    Unique<Background> background;
     Camera* const mainCamera;
 };
