@@ -448,6 +448,20 @@ int ActiveTetromino::GetPieceWidth()
 
 void ActiveTetromino::HardDrop()
 {
+    if (!IsPositionValid(row - 1, col, rotation))
+    {
+        FreezePiece();
+        SetCurrentLevel();
+
+        dropTimer = 0.0f;
+        lockMoveCount = 0;
+        isInput = false;
+
+        SpawnPiece();
+        lockDelayTimer = 0.0f;
+        return;
+    }
+
     camera->TriggerShakeY();
 
     int rowStart = 20;
@@ -477,7 +491,13 @@ void ActiveTetromino::HardDrop()
     SetLean();
     FreezePiece();
     SetCurrentLevel();
+
+    dropTimer = 0.0f;
+    lockMoveCount = 0;
+    isInput = false;
+
     SpawnPiece();
+    lockDelayTimer = 0.0f;
 }
 
 void ActiveTetromino::SetLean()
