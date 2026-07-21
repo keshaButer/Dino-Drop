@@ -4,7 +4,7 @@
 #include "../FontRenderer/FontRenderer.h"
 #include "../Button/Button.h"
 #include "../Camera/camera.h"
-#include "SmartPointers.h"
+#include <SmartPointers.h>
 
 class MainMenuState : public GameState
 {
@@ -15,15 +15,28 @@ public:
     void Update(float deltaTime) override;
     void Exit() override;
 
-    void UpdateButtons(float deltaTime);
-    void DrawButtons();
+    enum class MenuScreen
+    {
+        Main,
+        Scores,
+        Settings
+    };
 
 private:
+    void UpdateButtons(float deltaTime);
+    void DrawButtons();
+    void InitializeButtons();
+    void SubscribeButtons();
+
+    MenuScreen currentScreen = MenuScreen::Main;
+
     Unique<Background> background;
     Unique<FontRenderer> textRenderer;
     Unique<SpriteRenderer> spriteRenderer;
     Unique<Button> startButton;
     Unique<Button> exitButton;
     Unique<Button> settingsButton;
+    Unique<Button> scoresButton;
+    Unique<Button> backButton;
     Camera* const mainCamera;
 };

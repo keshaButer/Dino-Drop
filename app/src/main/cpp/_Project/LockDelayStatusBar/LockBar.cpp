@@ -12,7 +12,7 @@ void LockBar::Update(float deltaTime)
 {
     float actualProgress = activeTetromino->GetLockDelayTimer() / Config::Gameplay::LOCK_DELAY;
     Engine::Get().PrintDebug("ACTUAL PROGRESS IS: %f", actualProgress);
-    progress = lerp(progress, actualProgress, std::clamp(5.0f * deltaTime, 0.0f, 1.0f));
+    progress = lerp(progress, actualProgress, std::clamp(13.0f * deltaTime, 0.0f, 1.0f));
     progress = std::clamp(progress, 0.0f, 1.0f);
     Engine::Get().PrintDebug("PROGRESS IS: %f", progress);
 }

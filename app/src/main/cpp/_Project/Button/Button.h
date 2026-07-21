@@ -32,8 +32,12 @@ public:
 
     }
 
+    bool isActive = true;
+
     void Update(float deltaTime)
     {
+        if (!isActive) return;
+
         float factor = acceleration * Engine::Get().GetUnscaledDeltaTime() * 100.0f;
 
         factor = glm::clamp(factor, 0.0f, 1.0f);
@@ -52,6 +56,8 @@ public:
 
     void Draw()
     {
+        if (!isActive) return;
+
         spriteRenderer->Draw(centerWorld, glm::vec2(width, height) * currentScale, 0, currentColor, texture);
         textRenderer->RenderText(text, centerWorld, textSize * currentScale, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
     }
@@ -82,6 +88,8 @@ private:
 
     void HandleInput(int32_t action, float touchX, float touchY)
     {
+        if (!isActive) return;
+
         if (intersects(touchX, touchY))
         {
             Engine::Get().isInputHandled = true;
