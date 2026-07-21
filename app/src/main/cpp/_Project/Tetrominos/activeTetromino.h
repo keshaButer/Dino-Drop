@@ -18,6 +18,7 @@ public:
     void Rotate();
     void HardDrop();
     void Draw();
+    float GetLockDelayTimer() const { return lockDelayTimer; }
 
 private:
     Board* const board;

@@ -36,6 +36,7 @@ add_library(testrix SHARED
         _Project/GameState/MainMenu/MainMenuState.cpp
         _Project/GameState/GameOver/GameOverState.cpp
         _Project/Audio/AudioManager.cpp
+        _Project/LockDelayStatusBar/LockBar.cpp
 )
 
 target_include_directories(testrix PRIVATE

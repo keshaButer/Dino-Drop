@@ -45,6 +45,7 @@ void SpriteRenderer::Draw(glm::vec2 position, glm::vec2 scale, float rotationDeg
 
     glUniformMatrix4fv(modelPos, 1, GL_FALSE, glm::value_ptr(model));
     glUniform4f(colorPos, color.r, color.g, color.b, color.a);
+
     if (progress >= 0)
         glUniform1f(progressPos, progress);
 

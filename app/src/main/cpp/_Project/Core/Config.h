@@ -168,5 +168,6 @@ namespace Config
     {
         inline constexpr std::string_view DEFAULT_TEXTURE = "DefaultTex";
         inline constexpr std::string_view DEFAULT_NO_TEXTURE = "DefaultNoTex";
+        inline constexpr std::string_view LOCK_DELAY = "LockDelay";
     }
 }

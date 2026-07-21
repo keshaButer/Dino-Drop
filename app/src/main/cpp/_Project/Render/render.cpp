@@ -7,10 +7,11 @@
 #include "../Background/moving_background.h"
 #include "../Score/DrawScore.h"
 #include "../Button/Button.h"
+#include "../LockDelayStatusBar/LockBar.h"
 
 
-Render::Render(Grid* _grid, Board* board, ActiveTetromino* activeTetromino, Background* background, DrawScore* _drawScore, Button* _pauseButton) : 
-grid(_grid), board(board), activeTetromino(activeTetromino), background(background), drawScore(_drawScore), pauseButton(_pauseButton)
+Render::Render(Grid* _grid, Board* board, ActiveTetromino* activeTetromino, Background* background, DrawScore* _drawScore, Button* _pauseButton, LockBar* _lockBar) : 
+grid(_grid), board(board), activeTetromino(activeTetromino), background(background), drawScore(_drawScore), pauseButton(_pauseButton), lockBar(_lockBar)
 { }
 
 void Render::RenderFrame()
@@ -22,6 +23,7 @@ void Render::RenderFrame()
 
     board->Draw();
     activeTetromino->Draw();
+    lockBar->Draw();
 
     FXSystem::Get().LateRender();
 

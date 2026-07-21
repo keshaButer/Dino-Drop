@@ -11,6 +11,7 @@
 #include "../Button/Button.h"
 #include "../SpriteRenderer/sprite_renderer.h"
 #include "../Pause/PauseManager.h"
+#include "../LockDelayStatusBar/LockBar.h"
 
 GameplayState::GameplayState(Camera* camera) : mainCamera(camera) {}
 
@@ -39,6 +40,8 @@ void GameplayState::Enter()
     activeTetromino = std::make_unique<ActiveTetromino>(board.get(), drawTetromino.get(), mainCamera);
     grid = std::make_unique<Grid>(board.get());
 
+    lockBar = std::make_unique<LockBar>(activeTetromino.get());
+
     drawScore = std::make_unique<DrawScore>(board.get(), mainCamera);
 
     render = std::make_unique<Render>(
@@ -47,7 +50,8 @@ void GameplayState::Enter()
         activeTetromino.get(),
         background.get(),
         drawScore.get(),
-        pauseButton.get()
+        pauseButton.get(),
+        lockBar.get()
     );
 }
 
@@ -59,6 +63,7 @@ void GameplayState::Update(float deltaTime)
     {
         mainCamera->Move(deltaTime);
         activeTetromino->Update(deltaTime);
+        lockBar->Update(deltaTime);
     }
 
     render->RenderFrame();

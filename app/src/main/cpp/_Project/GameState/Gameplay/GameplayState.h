@@ -13,6 +13,7 @@ class DrawScore;
 class Button;
 class SpriteRenderer;
 class FontRenderer;
+class LockBar;
 
 class GameplayState : public GameState
 {
@@ -36,5 +37,6 @@ private:
     Unique<ActiveTetromino> activeTetromino;
     Unique<Background> background;
     Unique<DrawScore> drawScore;
+    Unique<LockBar> lockBar;
     Camera* const mainCamera; 
 };

@@ -47,6 +47,7 @@ void Game::LoadShaders()
     shaderManager.LoadShader("Particles");
     shaderManager.LoadShader("Ghost")->LoadTexture(Config::GetTexturePath("ghost").c_str());
     shaderManager.LoadShader("Font");
+    shaderManager.LoadShader(Config::ShaderNames::LOCK_DELAY);
 
     shaderManager.AttachAllToCamera(mainCamera);
     shaderManager.SetTextureSlotZeroToAll();
