@@ -51,22 +51,56 @@ void ActiveTetromino::SpawnPiece()
 void ActiveTetromino::Update(float deltaTime)
 {
     dropTimer += deltaTime;
+    bool isValid = IsPositionValid(row - 1, col, rotation);
+    
+    static bool wasValidLastFrame = true;
+
+    if (!isValid)
+    {
+        lockDelayTimer += deltaTime;
+
+        if (wasValidLastFrame)
+        {
+            isTraped = IsTraped();
+            wasValidLastFrame = false;
+        }
+
+        if (isTraped || lockDelayTimer >= Config::Gameplay::LOCK_DELAY || (!isInput && dropTimer >= spawnInterval))
+        {
+            FreezePiece();
+            SetCurrentLevel();
+            SpawnPiece();
+            lockDelayTimer = 0.0f;
+        }
+    }
+    else 
+    {
+        lockDelayTimer = 0.0f;
+        wasValidLastFrame = true;
+    }
 
     if (dropTimer >= spawnInterval)
     {
         dropTimer -= spawnInterval;
         
-        if (IsPositionValid(row - 1, col, rotation))
+        if (isValid)
         {
             row--;
-        }
-        else
-        {
-            FreezePiece();
-            SetCurrentLevel();
-            SpawnPiece();
+            isInput = false;
+            lockMoveCount = 0;
         }
     }
+}
+
+bool ActiveTetromino::IsTraped()
+{
+    if (IsPositionValid(row, col - 1, rotation)) return false;
+    if (IsPositionValid(row, col + 1, rotation)) return false;
+
+    int nextRotation = (rotation + 1) % 4;
+    if (IsPositionValid(row, col, nextRotation)) return false;
+
+    return true;
 }
 
 void ActiveTetromino::FreezePiece()
@@ -163,6 +197,8 @@ bool ActiveTetromino::IsPositionValid(int nextRow, int nextCol, int nextRotation
 void ActiveTetromino::HandleInput(int32_t action, float touchX, float touchY)
 {
     if (PauseManager::Get().IsPaused()) return;
+
+    isInput = true;
 
     uint64_t now = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::high_resolution_clock::now().time_since_epoch()
@@ -277,6 +313,8 @@ void ActiveTetromino::HandleHandledInput(float deltaX, float deltaY, bool isDrag
                 col = nextCol;
                 AudioManager::Get().PlayAudioClip(Config::Sound::MOVE_TETROMINO, false, 1.0f, Engine::Get().RandomRange(0.95f, 1.05f));
                 isFirstHorizontalStep = false;
+                isTraped = IsTraped();
+                ResetLockDelay();
             }
             accumulatedDx -= currentSensX;
             currentSensX = Config::Control::DRAG_SENSITIVITY_X;
@@ -290,6 +328,8 @@ void ActiveTetromino::HandleHandledInput(float deltaX, float deltaY, bool isDrag
                 col = nextCol;
                 AudioManager::Get().PlayAudioClip(Config::Sound::MOVE_TETROMINO, false, 1.0f, Engine::Get().RandomRange(0.95f, 1.05f));
                 isFirstHorizontalStep = false;
+                isTraped = IsTraped();
+                ResetLockDelay();
             }
             accumulatedDx += currentSensX;
             currentSensX = Config::Control::DRAG_SENSITIVITY_X;
@@ -310,6 +350,7 @@ void ActiveTetromino::HandleHandledInput(float deltaX, float deltaY, bool isDrag
             {
                 row--;
                 dropTimer = 0.0f; 
+                isTraped = IsTraped();
             }
             accumulatedDy -= currentSensY;
         }
@@ -335,6 +376,22 @@ void ActiveTetromino::CancelHorizontalMove()
     col = startColOfGesture; 
 }
 
+void ActiveTetromino::ResetLockDelay()
+{
+    if (!IsPositionValid(row - 1, col, rotation))
+    {
+        if (lockMoveCount < Config::Gameplay::MAX_LOCK_MOVES)
+        {
+            lockDelayTimer = 0.0f;
+            lockMoveCount++;
+        }
+    }
+    else
+    {
+        lockDelayTimer = 0.0f;
+    }
+}
+
 void ActiveTetromino::Rotate()
 {
     if (accumulatedDy >= sensitivityY / 2) return;
@@ -342,21 +399,29 @@ void ActiveTetromino::Rotate()
 
     int nextRotation = (rotation + 1) % 4;
 
+    bool isRotated = false;
     if (IsPositionValid(row, col, nextRotation))
     {
         rotation = nextRotation;
-        return;
+        isRotated = true;
     }
-
-    if (IsPositionValid(row, col - 1, nextRotation))
+    else if (IsPositionValid(row, col - 1, nextRotation))
     {
         col--;
         rotation = nextRotation;
+        isRotated = true;
     }
     else if (IsPositionValid(row, col + 1, nextRotation))
     {
         col++;
         rotation = nextRotation;
+        isRotated = true;
+    }
+
+    if (isRotated)
+    {
+        isTraped = IsTraped();
+        ResetLockDelay();
     }
 }
 

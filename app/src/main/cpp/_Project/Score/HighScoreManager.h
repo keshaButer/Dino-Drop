@@ -12,6 +12,15 @@ public:
     void Initialize()
     {
         scores = LoadHighScores();
+
+        Engine::Get().PrintInfo("Score:\n");
+        Engine::Get().PrintInfo("-----------------");
+        for (auto score : scores)
+        {
+            std::string message = "\n" + std::to_string(score);
+            Engine::Get().PrintInfo(message.c_str());
+        }
+        Engine::Get().PrintInfo("-----------------");
     }
 
     std::vector<int> LoadHighScores()
@@ -48,7 +57,6 @@ public:
                 file << score << "\n";
             }
             file.close();
-            Engine::Get().PrintInfo("HighScoreManager: Personal best history updated.");
         }
     }
 

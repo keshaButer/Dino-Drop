@@ -32,7 +32,10 @@ namespace Config
 
         inline constexpr float BACKGROUND_SPEED = 0.01f;
 
-        inline constexpr float DROP_INTERVAL = 2.0f;
+        inline constexpr float DROP_INTERVAL = 0.5f;
+        inline constexpr float LOCK_DELAY = 2.5f;
+        inline constexpr int MAX_LOCK_MOVES = 15;
+        inline constexpr float RESET_INPUT_DELAY = 0.5f;
         inline constexpr float DIFFICULTY_MULTIPLIER = 0.9f;
 
         inline constexpr float SCORE_TIME_MEANING = 100.0f;
@@ -136,8 +139,8 @@ namespace Config
     {
         inline constexpr float SCORE_TEXT_SCALE = 0.45f;
         inline constexpr float SCORE_TEXT_COLOR[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-        inline constexpr float SCORE_TEXT_ANIMATION_INTERVAL = 0.05f;
-        inline constexpr int SCORE_TEXT_ANIMATION_COUNT = 13;
+        inline constexpr float SCORE_TEXT_ANIMATION_INTERVAL = 0.15f;
+        inline constexpr int SCORE_TEXT_ANIMATION_COUNT = 5;
         inline constexpr float NEXT_TETROMINO_SCALE = 0.6f;
         inline constexpr float FONT_MULTIPLIER = 0.35f;
         inline constexpr float GAME_OVER_TEXT_SIZE = 1.1f;

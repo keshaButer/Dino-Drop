@@ -33,6 +33,8 @@ private:
     int lastCol;
     int lastRotation;
     bool wasFreeze;
+    float lockDelayTimer = 0.0f;
+    bool isInput = false;
 
     int currentLevel = 0;
     int countClearedLines = 0;
@@ -55,6 +57,8 @@ private:
     void SetLean();
     int GetPieceWidth();
     bool IsPositionValid(int nextRow, int nextCol, int nextRotation);
+    bool IsTraped();
+    void ResetLockDelay();
 
     Shader* const ghostShader;
 
@@ -64,5 +68,8 @@ private:
     bool isDragging;
     bool isDraggingX = false;
     bool isFirstHorizontalStep = true;
-    bool canRotateThisTouch = true;   bool isDraggingY = false; 
+    bool canRotateThisTouch = true;
+    bool isDraggingY = false;
+    bool isTraped = false;
+    int lockMoveCount = 0;
 };
