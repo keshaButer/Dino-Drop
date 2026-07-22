@@ -15,6 +15,7 @@ void Game::Start()
     Engine::Get().PrintInfo("Game Start");
 
     HighScoreManager::Get().Initialize();
+    SettingsManager::Get().LoadSettings();
     LoadTextures();
     LoadShaders();
     LoadSounds();

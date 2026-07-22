@@ -45,9 +45,6 @@ DataCallbackResult AudioManager::onAudioReady(AudioStream* oboeStream, void* aud
     float data[numFrames];
     std::fill(data, data + numFrames, 0.0f);
 
-    // ПО-ЧЕЛОВЕЧЕСКИ ПОД ТВОЙ КОД:
-    // Если игра на паузе, мы просто пропускаем этот блок миксования звуков!
-    // Музыка и эффекты не будут двигать свой playbackIndex и замрут на месте.
     if (!PauseManager::Get().IsPaused())
     {
         for (auto& [name, clip] : audioClips)
@@ -83,7 +80,6 @@ DataCallbackResult AudioManager::onAudioReady(AudioStream* oboeStream, void* aud
         }
     }
 
-    // Сюда долетают либо чистые нули из std::fill (при паузе), либо смиксованный звук!
     for (int i = 0; i < numFrames; i++)
     {
         outputData[i] = std::clamp(data[i], -1.0f, 1.0f);
@@ -184,6 +180,19 @@ void AudioManager::Reset()
     }
 }
 
+void AudioManager::SetClipPlaying(std::string_view name, bool enabled)
+{
+    auto it = audioClips.find(static_cast<std::string>(name));
+
+    if (it != audioClips.end())
+    {
+        it->second.isPlaying = enabled;
+    }
+    else 
+    {
+        Engine::Get().PrintError("AudioManager: can not set clip playing, there is no clip with that name");
+    }
+}
 
 void AudioManager::Exit()
 {

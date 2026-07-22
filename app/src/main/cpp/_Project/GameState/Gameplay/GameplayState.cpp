@@ -8,6 +8,7 @@
 #include "../Score/DrawScore.h"
 #include "../Score/ScoreManager.h"
 #include "../Audio/AudioManager.h"
+#include "../GameSettings/SettingsManager.h"
 #include "../Button/Button.h"
 #include "../SpriteRenderer/sprite_renderer.h"
 #include "../Pause/PauseManager.h"
@@ -19,7 +20,10 @@ void GameplayState::Enter()
 {
     Engine::Get().PrintInfo("GameplayState: Enter");
 
-    AudioManager::Get().PlayAudioClip(Config::Sound::GAMEPLAY_BG_MUSIC, true, 0.45f, 1.0f);
+    if (SettingsManager::Get().GetSettings().isMusicEnabled)
+    {
+        AudioManager::Get().PlayAudioClip(Config::Sound::GAMEPLAY_BG_MUSIC, true, 0.45f, 1.0f);
+    }
 
     spriteRenderer = std::make_unique<SpriteRenderer>();
     fontRenderer = std::make_unique<FontRenderer>(Config::GetFontPathOTF("Base").c_str(), 82);

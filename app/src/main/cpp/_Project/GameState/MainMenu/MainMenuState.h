@@ -28,6 +28,7 @@ private:
     void DrawButtons();
     void DisableAllButtons();
     void InitializeButtons();
+    void InitializeSwitches(GameSettings& settings);
     void SubscribeButtons();
 
     MenuScreen currentScreen = MenuScreen::Main;
@@ -42,6 +43,7 @@ private:
     Unique<Button> scoresButton;
     Unique<Button> backButton;
     Unique<Switch> musicSwitch;
+    Unique<Switch> ghostSwitch;
 
     Camera* const mainCamera;
 };

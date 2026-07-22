@@ -4,6 +4,7 @@
 #include "../GameStateManager.h"
 #include "../Gameplay/GameplayState.h"
 #include "../Score/HighScoreManager.h"
+#include "../Audio/AudioManager.h"
 #include <cstdlib>
 
 MainMenuState::MainMenuState(Camera* camera) : mainCamera(camera)
@@ -16,9 +17,16 @@ void MainMenuState::Enter()
     textRenderer = std::make_unique<FontRenderer>(Config::GetFontPathOTF("Base").c_str(), 82);
     spriteRenderer = std::make_unique<SpriteRenderer>();
 
+    GameSettings& settings = SettingsManager::Get().GetSettingsMutable();
+    InitializeSwitches(settings);
+
     InitializeButtons();
     SubscribeButtons();
-    // тут потом включу музыку
+
+    if (SettingsManager::Get().GetSettings().isMusicEnabled)
+    {
+        AudioManager::Get().PlayAudioClip(Config::Sound::GAMEPLAY_BG_MUSIC, true, 0.5f, 1.0f);
+    }
 }
 
 void MainMenuState::Update(float deltaTime)
@@ -56,6 +64,7 @@ void MainMenuState::UpdateButtons(float deltaTime)
         case MenuScreen::Settings:
         {
             musicSwitch->isActive = true;
+            ghostSwitch->isActive = true;
             backButton->isActive = true;
         } break;
     }
@@ -66,6 +75,7 @@ void MainMenuState::UpdateButtons(float deltaTime)
     exitButton->Update(deltaTime);
     backButton->Update(deltaTime);
     musicSwitch->Update(deltaTime);
+    ghostSwitch->Update(deltaTime);
 }
 
 void MainMenuState::DisableAllButtons()
@@ -76,6 +86,7 @@ void MainMenuState::DisableAllButtons()
     exitButton->isActive = false;
     backButton->isActive = false;
     musicSwitch->isActive = false;
+    ghostSwitch->isActive = false;
 }
 
 void MainMenuState::DrawButtons()
@@ -119,20 +130,39 @@ void MainMenuState::DrawButtons()
         case MenuScreen::Settings:
         {
             musicSwitch->Draw();
+            ghostSwitch->Draw();
             backButton->Draw();
         } break;
     }
 }
 
-void MainMenuState::InitializeButtons()
+void MainMenuState::InitializeSwitches(GameSettings& settings)
 {
     musicSwitch = std::make_unique<Switch>(
-        glm::vec2(0.7f, 0.5f),
-        0.4f,
+        glm::vec2(0.75f, 1.5f),
         0.3f,
-        spriteRenderer.get()
+        0.2f,
+        spriteRenderer.get(),
+        textRenderer.get(),
+        settings.isMusicEnabled,
+        "Music",
+        1.65f
     );
 
+    ghostSwitch = std::make_unique<Switch>(
+        glm::vec2(0.75f, 1.2f),
+        0.3f,
+        0.2f,
+        spriteRenderer.get(),
+        textRenderer.get(),
+        settings.isGhostEnabled,
+        "Ghost",
+        1.65f
+    );
+}
+
+void MainMenuState::InitializeButtons()
+{
     startButton = std::make_unique<Button>(
         glm::vec2(0.0f),
         1.0f,
@@ -216,4 +246,16 @@ void MainMenuState::SubscribeButtons()
         }
     );
 
+    musicSwitch->onSwitch.Subscribe([this]()
+        {
+            if (!SettingsManager::Get().GetSettings().isMusicEnabled)
+            {
+                AudioManager::Get().SetClipPlaying(Config::Sound::GAMEPLAY_BG_MUSIC, false);
+            }
+            else 
+            {
+                AudioManager::Get().SetClipPlaying(Config::Sound::GAMEPLAY_BG_MUSIC, true);
+            }
+        }
+    );
 }

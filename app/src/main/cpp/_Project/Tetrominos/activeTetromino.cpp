@@ -4,6 +4,7 @@
 #include "../ParticleSystem/FXSystem.h"
 #include "../ParticleSystem/GhostTrail/ghost_trail.h"
 #include "../Shaders/ShaderManager.h"
+#include "../GameSettings/SettingsManager.h"
 #include "../GameState/GameStateManager.h"
 #include "../GameState/GameOver/GameOverState.h"
 #include "../Score/ScoreManager.h"
@@ -123,7 +124,7 @@ void ActiveTetromino::FreezePiece()
 void ActiveTetromino::Draw()
 {
     DrawNext();
-    DrawGhost();
+    if (SettingsManager::Get().GetSettings().isGhostEnabled) DrawGhost();
 
     for (int i = 0; i < 4; i++)
     {
@@ -448,20 +449,6 @@ int ActiveTetromino::GetPieceWidth()
 
 void ActiveTetromino::HardDrop()
 {
-    // if (!IsPositionValid(row - 1, col, rotation))
-    // {
-    //     FreezePiece();
-    //     SetCurrentLevel();
-    //
-    //     dropTimer = 0.0f;
-    //     lockMoveCount = 0;
-    //     isInput = false;
-    //
-    //     SpawnPiece();
-    //     lockDelayTimer = 0.0f;
-    //     return;
-    // }
-
     camera->TriggerShakeY();
 
     int rowStart = 20;

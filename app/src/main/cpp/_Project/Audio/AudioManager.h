@@ -20,6 +20,7 @@ public:
 
     void AddAudioClip(std::string name, AudioClip clip);
     void LoadWavAudioClip(std::string_view viewName);
+    void SetClipPlaying(std::string_view name, bool enabled);
 
     DataCallbackResult onAudioReady(AudioStream* oboeStream, void* audioData, int32_t numFrames) override;
 
