@@ -103,10 +103,19 @@ void FontRenderer::Initialize(const char* fontPath, int fontSize)
     glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
 }
 
-void FontRenderer::RenderText(const std::string& text, glm::vec2 position, float scale, glm::vec4 color)
+void FontRenderer::RenderText(const std::string& text, glm::vec2 position, float scale, glm::vec4 color, bool centered)
 {
     float horizontalOffset = 0.0f;
-    glm::vec2 centeredPos = position - glm::vec2(CalculateTextWidth(text, scale), (characters[97].Bearing.y + 0.05f) * scale) * 0.5f;
+
+    glm::vec2 alignedPos;
+    if (centered)
+    {
+        alignedPos = position - glm::vec2(CalculateTextWidth(text, scale), (characters[97].Bearing.y + 0.05f) * scale) * 0.5f;
+    }
+    else 
+    {
+        alignedPos = position - glm::vec2(0.0f, (characters[97].Bearing.y + 0.05f) * scale * 0.5f);
+    }
 
     for (char c : text)
     {
@@ -118,7 +127,7 @@ void FontRenderer::RenderText(const std::string& text, glm::vec2 position, float
         );
 
         spriteRenderer.Draw(
-            centeredPos + offset,
+            alignedPos + offset,
             glm::vec2(character->Size.x, -character->Size.y) * scale,
             0,
             color,

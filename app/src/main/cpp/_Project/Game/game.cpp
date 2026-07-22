@@ -69,4 +69,6 @@ void Game::LoadTextures()
     ResourceManager& resourceManager = ResourceManager::Get();
     resourceManager.LoadTexture(Config::TextureNames::GAMEPLAY_BACKGROUND);
     resourceManager.LoadTexture(Config::TextureNames::MENU_BUTTON_BG);
+    resourceManager.LoadTexture(Config::TextureNames::SWITCH_TUMBLER);
+    resourceManager.LoadTexture(Config::TextureNames::SWITCH_BG);
 }

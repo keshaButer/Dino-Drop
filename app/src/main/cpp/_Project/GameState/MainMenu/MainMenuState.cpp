@@ -36,6 +36,8 @@ void MainMenuState::Exit()
 
 void MainMenuState::UpdateButtons(float deltaTime)
 {
+    DisableAllButtons();
+
     switch (currentScreen)
     {
         case MenuScreen::Main:
@@ -44,21 +46,17 @@ void MainMenuState::UpdateButtons(float deltaTime)
             scoresButton->isActive = true;
             settingsButton->isActive = true;
             exitButton->isActive = true;
-            backButton->isActive = false;
         } break;
 
         case MenuScreen::Scores:
         {
-            startButton->isActive = false;
-            scoresButton->isActive = false;
-            settingsButton->isActive = false;
-            exitButton->isActive = false;
             backButton->isActive = true;
         } break;
 
         case MenuScreen::Settings:
         {
-
+            musicSwitch->isActive = true;
+            backButton->isActive = true;
         } break;
     }
 
@@ -67,6 +65,17 @@ void MainMenuState::UpdateButtons(float deltaTime)
     settingsButton->Update(deltaTime);
     exitButton->Update(deltaTime);
     backButton->Update(deltaTime);
+    musicSwitch->Update(deltaTime);
+}
+
+void MainMenuState::DisableAllButtons()
+{
+    startButton->isActive = false;
+    scoresButton->isActive = false;
+    settingsButton->isActive = false;
+    exitButton->isActive = false;
+    backButton->isActive = false;
+    musicSwitch->isActive = false;
 }
 
 void MainMenuState::DrawButtons()
@@ -86,15 +95,15 @@ void MainMenuState::DrawButtons()
             textRenderer->RenderText("PERSONAL BESTS", glm::vec2(0.0f, 1.2f), 0.7f, glm::vec4(1.0f));
 
             const auto& scoresList = HighScoreManager::Get().LoadHighScores();
-            float yOffset = 0.6f;
+            float yOffset = 0.85f;
             int count = 1;
 
             for (int i = static_cast<int>(scoresList.size()) - 1; i >= 0; i--)
             {
-                if (count > 5) break; 
+                if (count > 10) break; 
                 std::string scoreLine = std::to_string(count) + ". " + std::to_string(scoresList[i]);
-                textRenderer->RenderText(scoreLine, glm::vec2(0.0f, yOffset), 0.8f, glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
-                yOffset -= 0.35f;
+                textRenderer->RenderText(scoreLine, glm::vec2(-0.75f, yOffset), 0.4f, glm::vec4(1.0f, 1.0f, 0.0f, 1.0f), false);
+                yOffset -= 0.15f;
                 count++;
             }
 
@@ -109,13 +118,21 @@ void MainMenuState::DrawButtons()
 
         case MenuScreen::Settings:
         {
-
+            musicSwitch->Draw();
+            backButton->Draw();
         } break;
     }
 }
 
 void MainMenuState::InitializeButtons()
 {
+    musicSwitch = std::make_unique<Switch>(
+        glm::vec2(0.7f, 0.5f),
+        0.4f,
+        0.3f,
+        spriteRenderer.get()
+    );
+
     startButton = std::make_unique<Button>(
         glm::vec2(0.0f),
         1.0f,
@@ -178,6 +195,12 @@ void MainMenuState::SubscribeButtons()
     scoresButton->onPress.Subscribe([this]()
         {
             currentScreen = MenuScreen::Scores;
+        }
+    );
+
+    settingsButton->onPress.Subscribe([this]()
+        {
+            currentScreen = MenuScreen::Settings;
         }
     );
 

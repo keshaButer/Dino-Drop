@@ -4,6 +4,7 @@
 #include "../FontRenderer/FontRenderer.h"
 #include "../Button/Button.h"
 #include "../Camera/camera.h"
+#include "../Switch/Switch.h"
 #include <SmartPointers.h>
 
 class MainMenuState : public GameState
@@ -25,6 +26,7 @@ public:
 private:
     void UpdateButtons(float deltaTime);
     void DrawButtons();
+    void DisableAllButtons();
     void InitializeButtons();
     void SubscribeButtons();
 
@@ -33,10 +35,13 @@ private:
     Unique<Background> background;
     Unique<FontRenderer> textRenderer;
     Unique<SpriteRenderer> spriteRenderer;
+
     Unique<Button> startButton;
     Unique<Button> exitButton;
     Unique<Button> settingsButton;
     Unique<Button> scoresButton;
     Unique<Button> backButton;
+    Unique<Switch> musicSwitch;
+
     Camera* const mainCamera;
 };

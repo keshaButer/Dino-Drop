@@ -162,6 +162,8 @@ namespace Config
     {
         inline constexpr std::string_view GAMEPLAY_BACKGROUND = "GameplayBackground";
         inline constexpr std::string_view MENU_BUTTON_BG = "MenuButton";
+        inline constexpr std::string_view SWITCH_BG = "SwitchBackground";
+        inline constexpr std::string_view SWITCH_TUMBLER = "SwitchTumbler";
     }
 
     namespace ShaderNames
