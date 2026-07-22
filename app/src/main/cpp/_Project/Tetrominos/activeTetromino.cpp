@@ -351,6 +351,7 @@ void ActiveTetromino::HandleHandledInput(float deltaX, float deltaY, bool isDrag
             {
                 row--;
                 dropTimer = 0.0f; 
+                AudioManager::Get().PlayAudioClip(Config::Sound::MOVE_TETROMINO, false, 1.0f, Engine::Get().RandomRange(0.95f, 1.05f));
                 isTraped = IsTraped();
             }
             accumulatedDy -= currentSensY;
