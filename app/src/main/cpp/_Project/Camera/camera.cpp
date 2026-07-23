@@ -2,6 +2,7 @@
 #include <GLES3/gl3.h>
 #include <cstdlib>
 #include "../Core/Config.h"
+#include "../Engine/engine.h"
 
 Camera::Camera() {}
 
@@ -45,6 +46,8 @@ void Camera::CalculateLean(float deltaTime)
 
 void Camera::Move(float deltaTime)
 {
+    posX = Lerp(posX, 0.0f, Config::Gameplay::ACCEL_MOVE_BOARD_TO_ZERO_X);
+
     CalculateShake(deltaTime);
     CalculateShakeY(deltaTime);
     CalculateLean(deltaTime);
@@ -60,6 +63,11 @@ void Camera::Move(float deltaTime)
         GLuint viewPos = glGetUniformLocation(shader->IDprogram, "view");
         glUniformMatrix4fv(viewPos, 1, GL_FALSE, glm::value_ptr(view));
     }
+}
+
+void Camera::MoveSide(float deltaX)
+{
+    posX += (deltaX / Engine::Get().GetWindowWidth()) * Config::Gameplay::STREGTH_MOVE_BOARD_SIDE;
 }
 
 glm::mat4& Camera::GetViewMatrix()

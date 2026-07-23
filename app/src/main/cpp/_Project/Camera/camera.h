@@ -19,6 +19,7 @@ public:
     void LeanLeft();
     void LeanCenter();
     void Move(float deltaTime);
+    void MoveSide(float deltaX);
     float GetCurrentRotation() const { return currentRotZ; }
     glm::mat4& GetViewMatrix();
 

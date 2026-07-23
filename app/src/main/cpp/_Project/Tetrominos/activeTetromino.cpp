@@ -300,6 +300,16 @@ void ActiveTetromino::HandleHandledInput(float deltaX, float deltaY, bool isDrag
     {
         accumulatedDx += deltaX;
 
+        for (int i = 0; i < 4; i++)
+        {
+            Point localPoint = TETROMINO_SHAPES[type][rotation][i];
+
+            if (col + localPoint.x == Config::Gameplay::BOARD_WIDTH - 1 || col + localPoint.x == 0)
+            {
+                camera->MoveSide(deltaX);
+            }
+        }
+
         float currentSensX = Config::Control::DRAG_SENSITIVITY_X;
         if (isFirstHorizontalStep)
         {

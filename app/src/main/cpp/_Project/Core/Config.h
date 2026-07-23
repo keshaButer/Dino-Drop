@@ -33,7 +33,7 @@ namespace Config
         inline constexpr float BACKGROUND_SPEED = 0.01f;
 
         inline constexpr float DROP_INTERVAL = 0.5f;
-        inline constexpr float LOCK_DELAY = 2.5f;
+        inline constexpr float LOCK_DELAY = 1.0f;
         inline constexpr int MAX_LOCK_MOVES = 15;
         inline constexpr float RESET_INPUT_DELAY = 0.5f;
         inline constexpr float DIFFICULTY_MULTIPLIER = 0.9f;
@@ -44,6 +44,8 @@ namespace Config
 
         inline constexpr float SHAKE_INTENSY = 0.0f;
         inline constexpr float SHAKE_DURATION = 0.45f;
+        inline constexpr float STREGTH_MOVE_BOARD_SIDE = 0.2f;
+        inline constexpr float ACCEL_MOVE_BOARD_TO_ZERO_X = 0.035f;
         inline constexpr float LEAN_INTENSY = 1.5f;
         inline constexpr float LEAN_ACCEL = 15.0f;
     }
