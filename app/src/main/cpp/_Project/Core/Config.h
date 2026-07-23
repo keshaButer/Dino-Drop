@@ -48,6 +48,13 @@ namespace Config
         inline constexpr float ACCEL_MOVE_BOARD_TO_ZERO_X = 0.035f;
         inline constexpr float LEAN_INTENSY = 1.5f;
         inline constexpr float LEAN_ACCEL = 15.0f;
+
+        inline constexpr float SPRING_STIFFNESS = 300.0f;
+        inline constexpr float SPRING_DAMPING = 15.0f;
+        inline constexpr float TETROMINO_LEAN_FORCE = 0.05f;
+        inline constexpr float TETROMINO_LEAN_SPEED = 15.0f;
+        inline constexpr float SQUASH_Y_FORCE = 0.75f;
+        inline constexpr float SQUASH_VELOCITY = -15.0f;
     }
     
     // === Цвета ===
@@ -173,5 +180,6 @@ namespace Config
         inline constexpr std::string_view DEFAULT_TEXTURE = "DefaultTex";
         inline constexpr std::string_view DEFAULT_NO_TEXTURE = "DefaultNoTex";
         inline constexpr std::string_view LOCK_DELAY = "LockDelay";
+        inline constexpr std::string_view GRID = "Grid";
     }
 }

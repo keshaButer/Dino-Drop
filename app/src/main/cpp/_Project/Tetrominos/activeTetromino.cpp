@@ -68,6 +68,9 @@ void ActiveTetromino::Update(float deltaTime)
 
         if (isTraped || lockDelayTimer >= Config::Gameplay::LOCK_DELAY || (!isInput && dropTimer >= spawnInterval))
         {
+            squashY = Config::Gameplay::SQUASH_Y_FORCE * 1.2f;
+            squashVelocity = Config::Gameplay::SQUASH_VELOCITY / 3.0f;
+
             FreezePiece();
             SetCurrentLevel();
             SpawnPiece();
@@ -91,6 +94,19 @@ void ActiveTetromino::Update(float deltaTime)
             lockMoveCount = 0;
         }
     }
+
+    float displacement = squashY - 1.0f;
+    float springForce = -Config::Gameplay::SPRING_STIFFNESS * displacement;
+    float dampingForce = -Config::Gameplay::SPRING_DAMPING * squashVelocity;
+    float acceleration = springForce + dampingForce;
+
+    squashVelocity += acceleration * deltaTime;
+    squashY += squashVelocity * deltaTime;
+
+    squashX = 1.0f + (1.0f - squashY) * 0.5f;
+
+    targetLeanAngle = -accumulatedDx * Config::Gameplay::TETROMINO_LEAN_FORCE; 
+    currentLeanAngle = currentLeanAngle + (targetLeanAngle - currentLeanAngle) * Config::Gameplay::TETROMINO_LEAN_SPEED * deltaTime;
 }
 
 bool ActiveTetromino::IsTraped()
@@ -124,12 +140,46 @@ void ActiveTetromino::FreezePiece()
 void ActiveTetromino::Draw()
 {
     DrawNext();
-    if (SettingsManager::Get().GetSettings().isGhostEnabled) DrawGhost();
+    if (SettingsManager::Get().GetSettings().isGhostEnabled) 
+    {
+        DrawGhost();
+    }
 
+    SpriteRenderer& renderer = tetrominoRenderer->GetSpriteRenderer();
+
+    glm::vec2 figureCenter(
+        Config::Gameplay::BOARD_OFFSET_X + (static_cast<float>(col + 1) * Config::Gameplay::CELL_SIZE),
+        Config::Gameplay::BOARD_OFFSET_Y + (static_cast<float>(row + 1) * Config::Gameplay::CELL_SIZE)
+    );
+
+    int baseColor = type * 3;
+    glm::vec4 finalColor = glm::vec4( 
+        Config::Color::TETROMINO_COLORS[baseColor], 
+        Config::Color::TETROMINO_COLORS[baseColor + 1], 
+        Config::Color::TETROMINO_COLORS[baseColor + 2],
+        1.0f
+    );
+    float cellSize = static_cast<float>(Config::Gameplay::CELL_SIZE);
     for (int i = 0; i < 4; i++)
     {
         Point localPoint = TETROMINO_SHAPES[type][rotation][i];
-        tetrominoRenderer->Draw(row + localPoint.y, col + localPoint.x, type);
+        
+        float localX = static_cast<float>(localPoint.x) * cellSize;
+        float localY = static_cast<float>(localPoint.y) * cellSize;
+
+        localX *= squashX;
+        localY *= squashY;
+
+        glm::vec2 transformedOffset(localX, localY);
+        glm::vec2 blockPos = figureCenter + transformedOffset;
+        glm::vec2 blockSize(cellSize * squashX, cellSize * squashY);
+
+        renderer.Draw(
+            blockPos - (blockSize * 0.5f),
+            blockSize,
+            0.0f, 
+            finalColor
+        );
     }
 }
 
@@ -461,6 +511,9 @@ int ActiveTetromino::GetPieceWidth()
 void ActiveTetromino::HardDrop()
 {
     camera->TriggerShakeY();
+
+    squashY = Config::Gameplay::SQUASH_Y_FORCE;
+    squashVelocity = Config::Gameplay::SQUASH_VELOCITY;
 
     int rowStart = 20;
     while (IsPositionValid(row - 1, col, rotation))

@@ -4,10 +4,12 @@
 #include "../Camera/camera.h"
 #include "../Event/Event.h"
 
+class Grid;
+
 class Board
 {
 public:
-    Board(DrawTetromino* tetrominoRenderer, Camera* _camera);
+    Board(DrawTetromino* tetrominoRenderer, Camera* _camera, Grid* _grid);
 
     void Draw();
     void Clear();
@@ -23,7 +25,9 @@ public:
 private:
     int board[Config::Gameplay::BOARD_HEIGHT][Config::Gameplay::BOARD_WIDTH] = {0};
     DrawTetromino* const tetrominoRenderer;
+    SpriteRenderer outlineRenderer;
     Camera* const camera;
+    Grid* const grid;
     Shader* const flashShader;
     Shader* const particlesShader;
 };

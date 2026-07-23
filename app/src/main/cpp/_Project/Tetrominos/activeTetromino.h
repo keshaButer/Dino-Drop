@@ -73,4 +73,11 @@ private:
     bool isDraggingY = false;
     bool isTraped = false;
     int lockMoveCount = 0;
+
+    float squashX = 1.0f;
+    float squashY = 1.0f;
+    float squashVelocity = 0.0f;
+
+    float targetLeanAngle = 0.0f;
+    float currentLeanAngle = 0.0f;
 };

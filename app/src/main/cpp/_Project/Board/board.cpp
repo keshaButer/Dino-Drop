@@ -1,21 +1,36 @@
 #include "board.h"
 #include <memory>
 #include "../ParticleSystem/FXSystem.h"
+#include "../Grid/grid.h"
 #include "../ParticleSystem/LineNeonFlash/line_neon_flash.h"
 #include "../ParticleSystem/LineNeonFlash/particle_explosion.h"
 #include "../Invoke/InvokeSystem.h"
 #include "../Shaders/ShaderManager.h"
 #include "../Audio/AudioManager.h"
 
-Board::Board(DrawTetromino* tetrominoRenderer, Camera* _camera)
- : tetrominoRenderer(tetrominoRenderer), camera(_camera),
-   flashShader(ShaderManager::Get().GetShader("Flash")), particlesShader(ShaderManager::Get().GetShader("Particles"))
+Board::Board(DrawTetromino* tetrominoRenderer, Camera* _camera, Grid* _grid) : 
+    tetrominoRenderer(tetrominoRenderer), camera(_camera),
+    flashShader(ShaderManager::Get().GetShader("Flash")), 
+    particlesShader(ShaderManager::Get().GetShader("Particles")),
+    grid(_grid),
+    outlineRenderer(ShaderManager::Get().GetShader(Config::ShaderNames::DEFAULT_NO_TEXTURE))
 {
     Clear();
 }
 
 void Board::Draw()
 {
+    for (int r = 0; r < Config::Gameplay::BOARD_HEIGHT; r++)
+    {
+        for (int c = 0; c < Config::Gameplay::BOARD_WIDTH; c++)
+        {
+            if (board[r][c] > 0)
+            {
+                tetrominoRenderer->DrawOutLine(r, c, glm::vec4(1.0f), 1.2f, outlineRenderer);
+            }
+        }
+    }
+
     for (int r = 0; r < Config::Gameplay::BOARD_HEIGHT; r++)
     {
         for (int c = 0; c < Config::Gameplay::BOARD_WIDTH; c++)
@@ -82,6 +97,8 @@ int Board::ClearFullLines()
         {
             FXSystem::Get().AddEffect(std::make_unique<LineNeonFlash>(r, glm::vec3(1), flashShader));
             FXSystem::Get().AddLateEffect(std::make_unique<ParticleExplosion>(r, glm::vec3(1), particlesShader));
+
+            grid->TriggerWave(r);
 
             fullLines[fullLinesCount] = r;
             fullLinesCount++;

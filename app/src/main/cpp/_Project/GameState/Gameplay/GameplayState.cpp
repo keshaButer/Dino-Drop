@@ -38,11 +38,11 @@ void GameplayState::Enter()
     background = std::make_unique<Background>();
     drawTetromino = std::make_unique<DrawTetromino>();
 
-    board = std::make_unique<Board>(drawTetromino.get(), mainCamera);
+    grid = std::make_unique<Grid>(board.get());
+    board = std::make_unique<Board>(drawTetromino.get(), mainCamera, grid.get());
     ScoreManager::Get().Initialize(board.get());
 
     activeTetromino = std::make_unique<ActiveTetromino>(board.get(), drawTetromino.get(), mainCamera);
-    grid = std::make_unique<Grid>(board.get());
 
     lockBar = std::make_unique<LockBar>(activeTetromino.get());
 

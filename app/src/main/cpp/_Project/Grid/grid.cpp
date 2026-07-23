@@ -7,8 +7,10 @@
 #include <math.h>
 #include "../Shaders/ShaderManager.h"
 
-Grid::Grid(Board* board) : board(board), shader(ShaderManager::Get().GetShader("DefaultNoTex")),
-    boardBG(ShaderManager::Get().GetShader("DefaultNoTex"))
+Grid::Grid(Board* board) : 
+    board(board), 
+    shader(ShaderManager::Get().GetShader(Config::ShaderNames::GRID)),
+    boardBG(ShaderManager::Get().GetShader(Config::ShaderNames::DEFAULT_NO_TEXTURE))
 {
     shader->UseProgram();
 
@@ -19,6 +21,10 @@ Grid::Grid(Board* board) : board(board), shader(ShaderManager::Get().GetShader("
     colorPos = glGetUniformLocation(shader->IDprogram, "uColor");
     isGridPos = glGetUniformLocation(shader->IDprogram, "isGrid");
     timePos = glGetUniformLocation(shader->IDprogram, "time");
+
+    waveCenterYPos = glGetUniformLocation(shader->IDprogram, "uWaveCenterY");
+    waveRadiusPos = glGetUniformLocation(shader->IDprogram, "uWaveRadius");
+    waveIntensityPos = glGetUniformLocation(shader->IDprogram, "uWaveIntensity");
 
     // VBO, VAO
     glGenBuffers(1, &VBO);
@@ -47,6 +53,18 @@ void Grid::Draw()
     );
 
     shader->UseProgram();
+
+    float dt = Engine::Get().GetUnscaledDeltaTime();
+    if (waveIntensity > 0.0f)
+    {
+        waveRadius += 1.8f * dt;
+        waveIntensity -= 2.2f * dt;
+        if (waveIntensity < 0.0f) waveIntensity = 0.0f;
+    }
+
+    glUniform1f(waveCenterYPos, waveCenterY);
+    glUniform1f(waveRadiusPos, waveRadius);
+    glUniform1f(waveIntensityPos, waveIntensity);
 
     float textureOffset = fmodf(Engine::Get().GetTime() * 0.012f, 1.0f);
     glUniform1f(timePos, textureOffset);

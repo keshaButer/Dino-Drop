@@ -11,6 +11,10 @@ public:
 
     void Draw(int row, int col, int color, bool isGhost = false);
     void Draw(float row, float col, int color, float scale = 1.0f);
+    void Draw(float row, float col, int color, glm::vec2 scale, float angle);
+    void DrawOutLine(int row, int col, glm::vec4 color, float thickness, SpriteRenderer& sprite);
+
+    SpriteRenderer& GetSpriteRenderer() { return spriteRenderer; }
 
 private:
     SpriteRenderer spriteRenderer;
