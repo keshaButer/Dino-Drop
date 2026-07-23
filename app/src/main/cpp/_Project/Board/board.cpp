@@ -3,6 +3,7 @@
 #include "../ParticleSystem/FXSystem.h"
 #include "../Grid/grid.h"
 #include "../ParticleSystem/LineNeonFlash/line_neon_flash.h"
+#include "../GameSettings/SettingsManager.h"
 #include "../ParticleSystem/LineNeonFlash/particle_explosion.h"
 #include "../Invoke/InvokeSystem.h"
 #include "../Shaders/ShaderManager.h"
@@ -20,13 +21,16 @@ Board::Board(DrawTetromino* tetrominoRenderer, Camera* _camera, Grid* _grid) :
 
 void Board::Draw()
 {
-    for (int r = 0; r < Config::Gameplay::BOARD_HEIGHT; r++)
+    if (SettingsManager::Get().GetSettings().isOutlineEnabled)
     {
-        for (int c = 0; c < Config::Gameplay::BOARD_WIDTH; c++)
+        for (int r = 0; r < Config::Gameplay::BOARD_HEIGHT; r++)
         {
-            if (board[r][c] > 0)
+            for (int c = 0; c < Config::Gameplay::BOARD_WIDTH; c++)
             {
-                tetrominoRenderer->DrawOutLine(r, c, glm::vec4(1.0f), 1.2f, outlineRenderer);
+                if (board[r][c] > 0)
+                {
+                    tetrominoRenderer->DrawOutLine(r, c, glm::vec4(1.0f), Config::Gameplay::OUTLINE_THICKNESS, outlineRenderer);
+                }
             }
         }
     }

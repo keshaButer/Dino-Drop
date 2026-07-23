@@ -44,6 +44,7 @@ private:
     Unique<Button> backButton;
     Unique<Switch> musicSwitch;
     Unique<Switch> ghostSwitch;
+    Unique<Switch> outlineSwitch;
 
     Camera* const mainCamera;
 };

@@ -65,6 +65,7 @@ void MainMenuState::UpdateButtons(float deltaTime)
         {
             musicSwitch->isActive = true;
             ghostSwitch->isActive = true;
+            outlineSwitch->isActive = true;
             backButton->isActive = true;
         } break;
     }
@@ -76,6 +77,7 @@ void MainMenuState::UpdateButtons(float deltaTime)
     backButton->Update(deltaTime);
     musicSwitch->Update(deltaTime);
     ghostSwitch->Update(deltaTime);
+    outlineSwitch->Update(deltaTime);
 }
 
 void MainMenuState::DisableAllButtons()
@@ -87,6 +89,7 @@ void MainMenuState::DisableAllButtons()
     backButton->isActive = false;
     musicSwitch->isActive = false;
     ghostSwitch->isActive = false;
+    outlineSwitch->isActive = false;
 }
 
 void MainMenuState::DrawButtons()
@@ -131,6 +134,7 @@ void MainMenuState::DrawButtons()
         {
             musicSwitch->Draw();
             ghostSwitch->Draw();
+            outlineSwitch->Draw();
             backButton->Draw();
         } break;
     }
@@ -138,6 +142,17 @@ void MainMenuState::DrawButtons()
 
 void MainMenuState::InitializeSwitches(GameSettings& settings)
 {
+    outlineSwitch = std::make_unique<Switch>(
+        glm::vec2(0.75f, 0.9f),
+        0.3f,
+        0.2f,
+        spriteRenderer.get(),
+        textRenderer.get(),
+        settings.isOutlineEnabled,
+        "Outline",
+        1.65f
+    );
+
     musicSwitch = std::make_unique<Switch>(
         glm::vec2(0.75f, 1.5f),
         0.3f,

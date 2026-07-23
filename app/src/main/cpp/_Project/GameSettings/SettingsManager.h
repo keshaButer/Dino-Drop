@@ -8,6 +8,7 @@ struct GameSettings
     bool isMusicEnabled = true;
     bool isSFXEnabled = true;
     bool isGhostEnabled = true;
+    bool isOutlineEnabled = true;
 };
 
 class SettingsManager

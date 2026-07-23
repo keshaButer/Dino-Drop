@@ -40,6 +40,8 @@ namespace Config
 
         inline constexpr float SCORE_TIME_MEANING = 100.0f;
 
+        inline constexpr float OUTLINE_THICKNESS = 1.15f;
+
         inline constexpr float BUTTON_PERFORM_DELAY = 0.1f;
 
         inline constexpr float SHAKE_INTENSY = 0.0f;
