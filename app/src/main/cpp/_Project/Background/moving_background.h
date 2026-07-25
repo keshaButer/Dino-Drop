@@ -10,10 +10,10 @@ public:
 
     void Draw();
 
+    Texture* texture =  nullptr;
 private:
     SpriteRenderer mainBG;
     float cycledTime;
-    Texture* texture =  nullptr;
 
     Shader* const shader;
     GLuint timeLocation;

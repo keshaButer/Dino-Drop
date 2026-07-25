@@ -19,6 +19,13 @@ Board::Board(DrawTetromino* tetrominoRenderer, Camera* _camera, Grid* _grid) :
     Clear();
 }
 
+void Board::OnContextRestored()
+{
+    flashShader = ShaderManager::Get().GetShader("Flash");
+    particlesShader = ShaderManager::Get().GetShader("Particles");
+    outlineRenderer.shader = ShaderManager::Get().GetShader(Config::ShaderNames::DEFAULT_NO_TEXTURE);
+}
+
 void Board::Draw()
 {
     if (SettingsManager::Get().GetSettings().isOutlineEnabled)

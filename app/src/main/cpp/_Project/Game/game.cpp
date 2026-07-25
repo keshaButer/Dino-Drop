@@ -39,6 +39,8 @@ void Game::Update()
 void Game::LoadShaders()
 {
     ShaderManager& shaderManager = ShaderManager::Get();
+    shaderManager.Clear();
+
     shaderManager.LoadShader("Background", false)->LoadTexture(Config::GetTexturePath("GameplayBackground").c_str());
     shaderManager.LoadShader("DefaultNoTex");
     shaderManager.LoadShader("DefaultTex");
@@ -70,6 +72,8 @@ void Game::LoadSounds()
 void Game::LoadTextures()
 {
     ResourceManager& resourceManager = ResourceManager::Get();
+    resourceManager.Clear();
+
     resourceManager.LoadTexture(Config::TextureNames::GAMEPLAY_BACKGROUND);
     resourceManager.LoadTexture(Config::TextureNames::MENU_BUTTON_BG);
     resourceManager.LoadTexture(Config::TextureNames::SWITCH_TUMBLER);

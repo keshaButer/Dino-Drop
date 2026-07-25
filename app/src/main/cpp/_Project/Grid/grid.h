@@ -15,6 +15,7 @@ class Grid
 public:
     Grid(Board* board);
     void Draw();
+    void OnContextRestored();
 
     void TriggerWave(int targetRow)
     {
@@ -33,7 +34,7 @@ private:
     GLint waveIntensityPos = -1;
 
     Vector2 cells[20][10];
-    Shader* const shader;
+    Shader* shader;
     Board* const board;
 
     SpriteRenderer boardBG;

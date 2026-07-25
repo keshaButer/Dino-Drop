@@ -8,6 +8,7 @@ class ActiveTetromino
 {
 public:
     ActiveTetromino(Board* board, DrawTetromino* renderer, Camera* camera);
+    void OnContextRestored();
 
     void Update(float deltaTime);
     void SetCurrentLevel();
@@ -61,7 +62,7 @@ private:
     bool IsTraped();
     void ResetLockDelay();
 
-    Shader* const ghostShader;
+    Shader* ghostShader;
 
     float startTouchX;
     float startTouchY;

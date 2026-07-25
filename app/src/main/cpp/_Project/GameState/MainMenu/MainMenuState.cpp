@@ -3,12 +3,37 @@
 #include "../Core/Config.h"
 #include "../GameStateManager.h"
 #include "../Gameplay/GameplayState.h"
+#include "../Shaders/ShaderManager.h"
 #include "../Score/HighScoreManager.h"
 #include "../Audio/AudioManager.h"
+#include "../Pause/PauseManager.h"
 #include <cstdlib>
 
 MainMenuState::MainMenuState(Camera* camera) : mainCamera(camera)
 {}
+
+void MainMenuState::OnContextRestored()
+{
+    mainCamera->ClearViewMatrix();
+    PauseManager::Get().SetPaused(false);
+
+    background->texture = ResourceManager::Get().GetTexture(Config::TextureNames::GAMEPLAY_BACKGROUND);
+    textRenderer->Initialize(Config::GetFontPathOTF("Base").c_str(), 82);
+    titleRenderer->Initialize(Config::GetFontPathOTF("Base").c_str(), 512);
+
+    Shader* shader = ShaderManager::Get().GetShader(Config::ShaderNames::DEFAULT_TEXTURE);
+    spriteRenderer->shader = shader;
+    spriteRenderer->SetTextureID(shader->textureID);
+
+    startButton->OnContextRestore();
+    exitButton->OnContextRestore();
+    settingsButton->OnContextRestore();
+    scoresButton->OnContextRestore();
+    backButton->OnContextRestore();
+    musicSwitch->OnContextRestore();
+    ghostSwitch->OnContextRestore();
+    outlineSwitch->OnContextRestore();
+}
 
 void MainMenuState::Enter()
 {

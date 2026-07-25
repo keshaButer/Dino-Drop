@@ -19,8 +19,8 @@ public:
     GLuint GetProgramID();
     void SetTextureID(GLuint id);
 
-private:
-    Shader* const shader;
     GLuint textureID = 0;
+    Shader* shader;
+private:
     GLuint colorPos, progressPos, modelPos;
 };

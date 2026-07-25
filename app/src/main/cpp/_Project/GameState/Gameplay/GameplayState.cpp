@@ -15,8 +15,36 @@
 #include "../SpriteRenderer/sprite_renderer.h"
 #include "../Pause/PauseManager.h"
 #include "../LockDelayStatusBar/LockBar.h"
+#include "../Shaders/ShaderManager.h"
 
 GameplayState::GameplayState(Camera* camera) : mainCamera(camera) {}
+
+void GameplayState::OnContextRestored()
+{
+    mainCamera->ClearViewMatrix();
+    PauseManager::Get().SetPaused(true);
+
+    background->texture = ResourceManager::Get().GetTexture(Config::TextureNames::GAMEPLAY_BACKGROUND);
+
+    Shader* shader = ShaderManager::Get().GetShader(Config::ShaderNames::DEFAULT_TEXTURE);
+    spriteRenderer->shader = shader;
+    spriteRenderer->SetTextureID(shader->textureID);
+
+    pauseBG = ResourceManager::Get().GetTexture(Config::TextureNames::PAUSE_BG);
+    pauseButton->texture = ResourceManager::Get().GetTexture(Config::TextureNames::PAUSE);
+    restartButton->OnContextRestore();
+    enterMenuButton->OnContextRestore();
+
+    drawTetromino->OnContextRestored();
+
+    grid->OnContextRestored();
+    board->OnContextRestored();
+    activeTetromino->OnContextRestored();
+    lockBar->OnContextRestored();
+    drawScore->OnContextRestored();
+
+    fontRenderer->Initialize(Config::GetFontPathOTF("Base").c_str(), 126);
+}
 
 void GameplayState::Enter()
 {

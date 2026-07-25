@@ -25,6 +25,8 @@ public:
     void Update(float deltaTime) override;
     void Exit() override;
 
+    void OnContextRestored() override;
+
 private:
     bool isPaused = false;
 

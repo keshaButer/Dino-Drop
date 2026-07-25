@@ -16,6 +16,8 @@ public:
     void Update(float deltaTime) override;
     void Exit() override;
 
+    void OnContextRestored() override;
+
     enum class MenuScreen
     {
         Main,

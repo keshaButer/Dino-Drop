@@ -12,6 +12,7 @@ public:
     static ResourceManager& Get() { static ResourceManager instance; return instance; }
 
     void Initialize();
+    void Clear() { textures.clear(); }
     void Shutdown();
     GLuint GetQuadVAO() { return quadVAO; }
 

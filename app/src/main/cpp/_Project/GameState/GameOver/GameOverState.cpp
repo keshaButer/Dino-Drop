@@ -6,6 +6,8 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <string>
 #include "../GameStateManager.h"
+#include "../Shaders/ShaderManager.h"
+#include "../Pause/PauseManager.h"
 #include "../Score/HighScoreManager.h"
 #include "../Gameplay/GameplayState.h"
 #include "../Audio/AudioManager.h"
@@ -14,6 +16,23 @@
 
 GameOverState::GameOverState(Camera* camera, StateData _data) : mainCamera(camera), data(_data)
 {}
+
+void GameOverState::OnContextRestored()
+{
+    mainCamera->ClearViewMatrix();
+    PauseManager::Get().SetPaused(false);
+
+    BG = ResourceManager::Get().GetTexture(Config::TextureNames::GAME_OVER_BG);
+    background->texture = ResourceManager::Get().GetTexture(Config::TextureNames::GAMEPLAY_BACKGROUND);
+    fontRenderer->Initialize(Config::GetFontPathOTF("Base").c_str(), 128);
+
+    Shader* shader = ShaderManager::Get().GetShader(Config::ShaderNames::DEFAULT_TEXTURE);
+    spriteRenderer->shader = shader;
+    spriteRenderer->SetTextureID(shader->textureID);
+
+    enterMenuButton->OnContextRestore();
+    restartButton->OnContextRestore();
+}
 
 void GameOverState::Enter()
 {

@@ -14,6 +14,8 @@ public:
     Shader* LoadShader(const std::string_view& name, bool viewUpdate = true);
     Shader* GetShader(const std::string_view& viewName);
 
+    void Clear() { shaders.clear(); }
+
     void AttachAllToCamera(Camera* camera);
     void SetTextureSlotZeroToAll();
     void BindTexture(GLuint id);

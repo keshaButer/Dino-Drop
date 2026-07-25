@@ -24,6 +24,11 @@ camera(camera), ghostShader(ShaderManager::Get().GetShader("GhostFX"))
     SpawnPiece();
 }
 
+void ActiveTetromino::OnContextRestored()
+{
+    ghostShader = ShaderManager::Get().GetShader("GhostFX");
+}
+
 void ActiveTetromino::SpawnPiece()
 {
     Engine::Get().PrintDebug("Spawn Piece");

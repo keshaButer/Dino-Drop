@@ -12,6 +12,13 @@ FontRenderer::FontRenderer(const char* fontPath, int fontSize) : spriteRenderer(
 
 void FontRenderer::Initialize(const char* fontPath, int fontSize)
 { 
+    fontBuffer.clear();
+    characters.clear();
+
+    Shader* shader = ShaderManager::Get().GetShader("Font");
+    spriteRenderer.shader = shader;
+    spriteRenderer.SetTextureID(shader->textureID);
+
     AAssetManager* assetManager = Engine::Get().GetAssetManager();
     if (!assetManager)
     {

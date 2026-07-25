@@ -9,6 +9,8 @@ class LockBar
 {
 public:
     LockBar(ActiveTetromino* tetromino);
+    void OnContextRestored();
+
     void Update(float deltaTime);
     void Draw();
 

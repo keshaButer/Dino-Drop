@@ -10,6 +10,7 @@ class Board
 {
 public:
     Board(DrawTetromino* tetrominoRenderer, Camera* _camera, Grid* _grid);
+    void OnContextRestored();
 
     void Draw();
     void Clear();
@@ -28,6 +29,6 @@ private:
     SpriteRenderer outlineRenderer;
     Camera* const camera;
     Grid* const grid;
-    Shader* const flashShader;
-    Shader* const particlesShader;
+    Shader* flashShader;
+    Shader* particlesShader;
 };

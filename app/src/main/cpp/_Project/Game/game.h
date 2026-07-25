@@ -8,10 +8,11 @@ public:
 
     void Start();
     void Update();
-private:
+
     void LoadShaders();
     void LoadSounds();
     void LoadTextures();
+private:
 
     Camera* const mainCamera = new Camera();
 };

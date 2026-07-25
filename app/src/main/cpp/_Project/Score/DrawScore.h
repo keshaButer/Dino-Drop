@@ -32,6 +32,11 @@ public:
         board->OnLinesCleard.Subscribe([this](int lines) { this->Animate(); });
     }
 
+    void OnContextRestored()
+    {
+        fontRenderer.Initialize(Config::GetFontPathOTF("Base").c_str(), 82);
+    }
+
     void Draw()
     {
         std::string text = "Score:" + std::to_string(ScoreManager::Get().GetCurrentScore());
@@ -49,8 +54,9 @@ public:
         );
     }
 
-private:
     FontRenderer fontRenderer;
+
+private:
     Camera* const camera;
 
     glm::vec2 position;

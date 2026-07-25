@@ -70,12 +70,18 @@ public:
         fontRenderer->RenderText(text, textPos, currentScale * 0.5f, glm::vec4(1.0f), false);
     }
 
+    void OnContextRestore()
+    {
+        bgTexture = ResourceManager::Get().GetTexture(Config::TextureNames::SWITCH_BG);
+        tumblerTexture = ResourceManager::Get().GetTexture(Config::TextureNames::SWITCH_TUMBLER);
+    }
+
     Event<> onSwitch;
     bool isEnabled;
 
 private:
-    Texture* const bgTexture;
-    Texture* const tumblerTexture;
+    Texture* bgTexture;
+    Texture* tumblerTexture;
     glm::vec2 centerWorld;
     glm::vec2 tumblerPos;
     glm::vec2 textPos;

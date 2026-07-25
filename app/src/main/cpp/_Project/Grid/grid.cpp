@@ -43,6 +43,42 @@ Grid::Grid(Board* board) :
     glUseProgram(0);
 }
 
+void Grid::OnContextRestored()
+{
+    shader = ShaderManager::Get().GetShader(Config::ShaderNames::GRID);
+    boardBG.shader = ShaderManager::Get().GetShader(Config::ShaderNames::DEFAULT_NO_TEXTURE);
+
+    shader->UseProgram();
+
+    std::vector<float> vertices = GenerateVertices();
+    vertexCount = vertices.size() / 2;
+
+    modelPos = glGetUniformLocation(shader->IDprogram, "model");
+    colorPos = glGetUniformLocation(shader->IDprogram, "uColor");
+    isGridPos = glGetUniformLocation(shader->IDprogram, "isGrid");
+    timePos = glGetUniformLocation(shader->IDprogram, "time");
+
+    waveCenterYPos = glGetUniformLocation(shader->IDprogram, "uWaveCenterY");
+    waveRadiusPos = glGetUniformLocation(shader->IDprogram, "uWaveRadius");
+    waveIntensityPos = glGetUniformLocation(shader->IDprogram, "uWaveIntensity");
+
+    // VBO, VAO
+    glGenBuffers(1, &VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), vertices.data(), GL_STATIC_DRAW);
+
+    glGenVertexArrays(1, &VAO);
+
+    glBindVertexArray(VAO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+    glBindVertexArray(0);
+    glUseProgram(0);
+}
+
 void Grid::Draw()
 {
     boardBG.Draw(

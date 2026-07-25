@@ -1,7 +1,7 @@
 #pragma once
 #include "../Camera/camera.h"
+#include "GameState.h"
 
-class GameState;
 
 class GameStateManager
 {
@@ -10,6 +10,7 @@ public:
 
     void SetState(GameState* gameState);
     void UpdateCurrentState(float deltaTime);
+    GameState* GetCurrentState() { return currentState; }
 
     Camera* mainCamera;
 

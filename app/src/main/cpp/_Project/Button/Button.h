@@ -69,10 +69,15 @@ public:
         textRenderer->RenderText(text, centerWorld, textSize * currentScale, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
     }
 
+    void OnContextRestore()
+    {
+        texture = ResourceManager::Get().GetTexture(Config::TextureNames::MENU_BUTTON_BG);
+    }
+
     Event<> onPress;
+    Texture* texture;
 
 private:
-    Texture* texture;
     glm::vec2 centerWorld;
 
     glm::vec4 currentColor;

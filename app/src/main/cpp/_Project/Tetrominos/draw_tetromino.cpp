@@ -23,6 +23,31 @@ DrawTetromino::DrawTetromino() : spriteRenderer(ShaderManager::Get().GetShader("
     glUseProgram(0);
 }
 
+void DrawTetromino::OnContextRestored()
+{
+    Shader* shaderd = ShaderManager::Get().GetShader("Tetromino");
+    spriteRenderer.shader = shaderd;
+    spriteRenderer.SetTextureID(shaderd->textureID);
+    Shader* shaderg = ShaderManager::Get().GetShader("Ghost");
+    spriteRendererGhost.shader = shaderg;
+    spriteRendererGhost.SetTextureID(shaderg->textureID);
+    shader = shaderd;
+    shaderGhost = shaderg;
+
+    shader->UseProgram();
+
+    timePos = glGetUniformLocation(shader->IDprogram, "time");
+    sinTimePos = glGetUniformLocation(shader->IDprogram, "sinTime");
+
+    shaderGhost->UseProgram();
+
+    timePos = glGetUniformLocation(shaderGhost->IDprogram, "time");
+    sinTimePos = glGetUniformLocation(shaderGhost->IDprogram, "sinTime");
+
+    glUseProgram(0);
+}
+
+
 void DrawTetromino::DrawOutLine(int row, int col, glm::vec4 color, float thickness, SpriteRenderer& sprite)
 {
     sprite.UseProgram();

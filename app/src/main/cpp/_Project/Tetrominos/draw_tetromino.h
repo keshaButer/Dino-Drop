@@ -8,6 +8,7 @@ class DrawTetromino
 {
 public:
     DrawTetromino();
+    void OnContextRestored();
 
     void Draw(int row, int col, int color, bool isGhost = false);
     void Draw(float row, float col, int color, float scale = 1.0f);
@@ -16,12 +17,10 @@ public:
 
     SpriteRenderer& GetSpriteRenderer() { return spriteRenderer; }
 
-private:
     SpriteRenderer spriteRenderer;
     SpriteRenderer spriteRendererGhost;
-    Shader* const shader;
-    Shader* const shaderGhost;
-
+    Shader* shader;
+    Shader* shaderGhost;
     GLuint timePos;
     GLuint sinTimePos;
 };

@@ -8,6 +8,11 @@ LockBar::LockBar(ActiveTetromino* tetromino) : activeTetromino(tetromino)
     sprite = std::make_unique<SpriteRenderer>(ShaderManager::Get().GetShader(Config::ShaderNames::LOCK_DELAY));
 }
 
+void LockBar::OnContextRestored()
+{
+    sprite->shader = ShaderManager::Get().GetShader(Config::ShaderNames::LOCK_DELAY);
+}
+
 void LockBar::Update(float deltaTime)
 {
     progress = activeTetromino->GetLockDelayTimer() / Config::Gameplay::LOCK_DELAY;

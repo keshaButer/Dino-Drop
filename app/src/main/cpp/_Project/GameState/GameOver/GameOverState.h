@@ -14,6 +14,8 @@ public:
     void Update(float deltaTime) override;
     void Exit() override;
 
+    void OnContextRestored() override;
+
     void HandleInput(int32_t action, float x, float y);
 
 private:
