@@ -16,7 +16,7 @@ public:
 
     void Reset();
 
-    void PlayAudioClip(std::string_view viewName, bool loop = false, float volume = 1.0f, float pitch = 1.0f);
+    void PlayAudioClip(std::string_view viewName, bool loop = false, float volume = 1.0f, float pitch = 1.0f, bool isUnstoppable = false);
 
     void AddAudioClip(std::string name, AudioClip clip);
     void LoadWavAudioClip(std::string_view viewName);

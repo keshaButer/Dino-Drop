@@ -64,6 +64,7 @@ void Game::LoadSounds()
     audioManager.LoadWavAudioClip(Config::Sound::GAMEPLAY_BG_MUSIC);
     audioManager.LoadWavAudioClip(Config::Sound::MOVE_TETROMINO);
     audioManager.LoadWavAudioClip(Config::Sound::ROTATE_TETROMINO);
+    audioManager.LoadWavAudioClip(Config::Sound::BUTTON_PRESS);
 }
 
 void Game::LoadTextures()
@@ -73,4 +74,7 @@ void Game::LoadTextures()
     resourceManager.LoadTexture(Config::TextureNames::MENU_BUTTON_BG);
     resourceManager.LoadTexture(Config::TextureNames::SWITCH_TUMBLER);
     resourceManager.LoadTexture(Config::TextureNames::SWITCH_BG);
+    resourceManager.LoadTexture(Config::TextureNames::PAUSE);
+    resourceManager.LoadTexture(Config::TextureNames::PAUSE_BG);
+    resourceManager.LoadTexture(Config::TextureNames::GAME_OVER_BG);
 }

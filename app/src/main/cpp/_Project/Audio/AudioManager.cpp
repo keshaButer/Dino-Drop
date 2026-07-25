@@ -45,36 +45,34 @@ DataCallbackResult AudioManager::onAudioReady(AudioStream* oboeStream, void* aud
     float data[numFrames];
     std::fill(data, data + numFrames, 0.0f);
 
-    if (!PauseManager::Get().IsPaused())
+    bool isPaused = PauseManager::Get().IsPaused();
+    for (auto& [name, clip] : audioClips)
     {
-        for (auto& [name, clip] : audioClips)
+        if (clip.isPlaying && ((!clip.isUnstoppable && !isPaused) || clip.isUnstoppable))
         {
-            if (clip.isPlaying)
+            for (int i = 0; i < numFrames; i++)
             {
-                for (int i = 0; i < numFrames; i++)
+                int index = static_cast<int>(clip.playbackIndex + i * clip.currentPitch);
+                if (index < clip.values.size())
                 {
-                    int index = static_cast<int>(clip.playbackIndex + i * clip.currentPitch);
-                    if (index < clip.values.size())
-                    {
-                        data[i] += clip.values[index] * clip.currentVolume;
-                    }
+                    data[i] += clip.values[index] * clip.currentVolume;
                 }
+            }
 
-                clip.playbackIndex += static_cast<float>(numFrames) * clip.currentPitch;
-                if (static_cast<int>(clip.playbackIndex) >= clip.values.size())
+            clip.playbackIndex += static_cast<float>(numFrames) * clip.currentPitch;
+            if (static_cast<int>(clip.playbackIndex) >= clip.values.size())
+            {
+                clip.isPlaying = false;
+                clip.playbackIndex = 0.0f;
+
+                if (clip.isLooped)
                 {
-                    clip.isPlaying = false;
-                    clip.playbackIndex = 0.0f;
-
-                    if (clip.isLooped)
-                    {
-                        clip.isPlaying = true;
-                    }
-                    else 
-                    {
-                        clip.currentVolume = 1.0f;
-                        clip.currentPitch = 1.0f;
-                    }
+                    clip.isPlaying = true;
+                }
+                else 
+                {
+                    clip.currentVolume = 1.0f;
+                    clip.currentPitch = 1.0f;
                 }
             }
         }
@@ -88,7 +86,7 @@ DataCallbackResult AudioManager::onAudioReady(AudioStream* oboeStream, void* aud
     return DataCallbackResult::Continue;
 }
 
-void AudioManager::PlayAudioClip(std::string_view viewName, bool loop, float volume, float pitch)
+void AudioManager::PlayAudioClip(std::string_view viewName, bool loop, float volume, float pitch, bool isUnstoppable)
 {
     std::string name = (std::string)viewName;
     auto node = audioClips.find(name);
@@ -103,8 +101,9 @@ void AudioManager::PlayAudioClip(std::string_view viewName, bool loop, float vol
     clip.isPlaying = true;
     clip.isLooped = loop;
     clip.playbackIndex = 0.0f;
-    clip.currentVolume = volume;
+    clip.currentVolume = volume * 0.4f;
     clip.currentPitch = pitch;
+    clip.isUnstoppable = isUnstoppable;
 }
 
 void AudioManager::AddAudioClip(std::string name, AudioClip clip)

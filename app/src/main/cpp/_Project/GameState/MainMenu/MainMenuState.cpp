@@ -15,6 +15,7 @@ void MainMenuState::Enter()
     Engine::Get().PrintInfo("MainMenuState: Enter");
     background = std::make_unique<Background>();
     textRenderer = std::make_unique<FontRenderer>(Config::GetFontPathOTF("Base").c_str(), 82);
+    titleRenderer = std::make_unique<FontRenderer>(Config::GetFontPathOTF("Base").c_str(), 512);
     spriteRenderer = std::make_unique<SpriteRenderer>();
 
     GameSettings& settings = SettingsManager::Get().GetSettingsMutable();
@@ -25,7 +26,7 @@ void MainMenuState::Enter()
 
     if (SettingsManager::Get().GetSettings().isMusicEnabled)
     {
-        AudioManager::Get().PlayAudioClip(Config::Sound::GAMEPLAY_BG_MUSIC, true, 0.5f, 1.0f);
+        AudioManager::Get().PlayAudioClip(Config::Sound::GAMEPLAY_BG_MUSIC, true, 0.45f, 1.0f);
     }
 }
 
@@ -98,6 +99,9 @@ void MainMenuState::DrawButtons()
     {
         case MenuScreen::Main:
         {
+            titleRenderer->RenderText("Dino", glm::vec2(-0.2f, 1.6f), 2.0f, glm::vec4(1.0f, 1.0, 0.0f, 1.0f), true, 0.055f);
+            titleRenderer->RenderText("Drop", glm::vec2(0.2f, 0.9f), 2.0f, glm::vec4(1.0f, 1.0, 0.0f, 1.0f), true, 0.055f);
+
             startButton->Draw();
             scoresButton->Draw();
             settingsButton->Draw();
@@ -106,18 +110,18 @@ void MainMenuState::DrawButtons()
 
         case MenuScreen::Scores:
         {
-            textRenderer->RenderText("PERSONAL BESTS", glm::vec2(0.0f, 1.2f), 0.7f, glm::vec4(1.0f));
+            textRenderer->RenderText("PERSONAL BESTS", glm::vec2(0.0f, 1.5f), 0.7f, glm::vec4(1.0f));
 
             const auto& scoresList = HighScoreManager::Get().LoadHighScores();
-            float yOffset = 0.85f;
+            float yOffset = 1.2f;
             int count = 1;
 
             for (int i = static_cast<int>(scoresList.size()) - 1; i >= 0; i--)
             {
                 if (count > 10) break; 
                 std::string scoreLine = std::to_string(count) + ". " + std::to_string(scoresList[i]);
-                textRenderer->RenderText(scoreLine, glm::vec2(-0.75f, yOffset), 0.4f, glm::vec4(1.0f, 1.0f, 0.0f, 1.0f), false);
-                yOffset -= 0.15f;
+                textRenderer->RenderText(scoreLine, glm::vec2(0.0f, yOffset), 0.55f, glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
+                yOffset -= 0.20f;
                 count++;
             }
 
@@ -142,10 +146,10 @@ void MainMenuState::DrawButtons()
 
 void MainMenuState::InitializeSwitches(GameSettings& settings)
 {
+    glm::vec2 size = glm::vec2(0.3f, 0.2f);
     outlineSwitch = std::make_unique<Switch>(
         glm::vec2(0.75f, 0.9f),
-        0.3f,
-        0.2f,
+        size,
         spriteRenderer.get(),
         textRenderer.get(),
         settings.isOutlineEnabled,
@@ -155,8 +159,7 @@ void MainMenuState::InitializeSwitches(GameSettings& settings)
 
     musicSwitch = std::make_unique<Switch>(
         glm::vec2(0.75f, 1.5f),
-        0.3f,
-        0.2f,
+        size,
         spriteRenderer.get(),
         textRenderer.get(),
         settings.isMusicEnabled,
@@ -166,8 +169,7 @@ void MainMenuState::InitializeSwitches(GameSettings& settings)
 
     ghostSwitch = std::make_unique<Switch>(
         glm::vec2(0.75f, 1.2f),
-        0.3f,
-        0.2f,
+        size,
         spriteRenderer.get(),
         textRenderer.get(),
         settings.isGhostEnabled,
@@ -178,10 +180,10 @@ void MainMenuState::InitializeSwitches(GameSettings& settings)
 
 void MainMenuState::InitializeButtons()
 {
+    glm::vec2 size = glm::vec2(0.9f, 0.4f);
     startButton = std::make_unique<Button>(
         glm::vec2(0.0f),
-        1.0f,
-        0.5f,
+        size,
         "Start",
         spriteRenderer.get(),
         textRenderer.get(),
@@ -189,9 +191,8 @@ void MainMenuState::InitializeButtons()
     );
 
     scoresButton = std::make_unique<Button>(
-        glm::vec2(0.0f, 0.5f),
-        1.0f,
-        0.5f,
+        glm::vec2(0.0f, -0.5f),
+        size,
         "Scores",
         spriteRenderer.get(),
         textRenderer.get(),
@@ -199,9 +200,8 @@ void MainMenuState::InitializeButtons()
     );
 
     settingsButton = std::make_unique<Button>(
-        glm::vec2(0.0f, -0.5f),
-        1.0f,
-        0.5f,
+        glm::vec2(0.0f, -1.0f),
+        size,
         "Settings",
         spriteRenderer.get(),
         textRenderer.get(),
@@ -209,9 +209,8 @@ void MainMenuState::InitializeButtons()
     );
 
     exitButton = std::make_unique<Button>(
-        glm::vec2(0.0f, -1.0f),
-        1.0f,
-        0.5f,
+        glm::vec2(0.0f, -1.5f),
+        size,
         "Exit",
         spriteRenderer.get(),
         textRenderer.get(),
@@ -220,8 +219,7 @@ void MainMenuState::InitializeButtons()
 
     backButton = std::make_unique<Button>(
         glm::vec2(0.0f, -1.5f),
-        1.0f,
-        0.5f,
+        size,
         "Back",
         spriteRenderer.get(),
         textRenderer.get(),

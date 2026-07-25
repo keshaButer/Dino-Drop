@@ -12,10 +12,10 @@
 class Button
 {
 public:
-    Button(glm::vec2 _centerWorld, float _width, float _height, std::string _text, SpriteRenderer* _spriteRenderer, FontRenderer* _textRenderer, float _textSize) : 
+    Button(glm::vec2 _centerWorld, glm::vec2 size, std::string _text, SpriteRenderer* _spriteRenderer, FontRenderer* _textRenderer, float _textSize, Texture* bg = nullptr) : 
         centerWorld(_centerWorld),
-        width(_width),
-        height(_height),
+        width(size.x),
+        height(size.y),
         text(_text),
         spriteRenderer(_spriteRenderer),
         textRenderer(_textRenderer),
@@ -24,7 +24,14 @@ public:
         min = glm::vec2(centerWorld.x - width * 0.5f, centerWorld.y - height * 0.5f);
         max = glm::vec2(centerWorld.x + width * 0.5f, centerWorld.y + height * 0.5f);
 
-        texture = ResourceManager::Get().GetTexture(Config::TextureNames::MENU_BUTTON_BG);
+        if (bg == nullptr)
+        {
+            texture = ResourceManager::Get().GetTexture(Config::TextureNames::MENU_BUTTON_BG);
+        }
+        else
+        {
+            texture = bg;
+        }
 
         Engine::Get().OnUIInput.Subscribe(
             [this](int32_t action, float x, float y){ this->HandleInput(action, x, y); }
@@ -74,10 +81,10 @@ private:
 
     float width;
     float height;
-    float acceleration = 0.4f;
+    float acceleration = 0.7f;
     float currentScale = 1.0f;
     float defaultScale = 1.0f;
-    float pressedScale = 0.9f;
+    float pressedScale = 0.96f;
     float textSize;
     glm::vec2 min, max;
     std::string text;
@@ -98,7 +105,7 @@ private:
             {
                 isPressed = true;
 
-                AudioManager::Get().PlayAudioClip(Config::Sound::MOVE_TETROMINO, false, 1.0f, 1.0f);
+                AudioManager::Get().PlayAudioClip(Config::Sound::BUTTON_PRESS, false, 1.0f, 1.0f, true);
             }
             
             if (action == AMOTION_EVENT_ACTION_UP)
@@ -106,7 +113,7 @@ private:
                 isPressed = false;
                 InvokeSystem::Get().Add(Config::Gameplay::BUTTON_PERFORM_DELAY, [this]() { onPress.Invoke(); });
 
-                AudioManager::Get().PlayAudioClip(Config::Sound::MOVE_TETROMINO, false, 1.0f, 0.8f);
+                AudioManager::Get().PlayAudioClip(Config::Sound::BUTTON_PRESS, false, 1.0f, 0.8f, true);
             }
         }
         else

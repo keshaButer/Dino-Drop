@@ -26,13 +26,14 @@ void GameOverState::Enter()
 
     background = std::make_unique<Background>(ResourceManager::Get().GetTexture(Config::TextureNames::GAMEPLAY_BACKGROUND));
 
+    BG = ResourceManager::Get().GetTexture(Config::TextureNames::GAME_OVER_BG);
     fontRenderer = std::make_unique<FontRenderer>(Config::GetFontPathOTF("Base").c_str(), 128);
     spriteRenderer = std::make_unique<SpriteRenderer>();
 
+    glm::vec2 size = glm::vec2(0.9f, 0.4f);
     enterMenuButton = std::make_unique<Button>(
         glm::vec2(0.0f, -1.2f),
-        1.0f,
-        0.5,
+        size,
         "Menu",
         spriteRenderer.get(),
         fontRenderer.get(),
@@ -41,8 +42,7 @@ void GameOverState::Enter()
 
     restartButton = std::make_unique<Button>(
         glm::vec2(0.0f, -0.7f),
-        1.0f,
-        0.5f,
+        size,
         "Restart",
         spriteRenderer.get(),
         fontRenderer.get(),
@@ -61,6 +61,7 @@ void GameOverState::Update(float deltaTime)
     glClear(GL_COLOR_BUFFER_BIT);
 
     background->Draw();
+    spriteRenderer->Draw(glm::vec2(0.0f, 0.85f), glm::vec2(0.9f, 0.4f), 0, glm::vec4(1.0f), BG);
     fontRenderer->RenderText("Game Over", glm::vec2(0.0f, 1.0f), Config::UI::GAME_OVER_TEXT_SIZE, glm::vec4(1.0f));
     fontRenderer->RenderText("Score: " + std::to_string(data.Score), glm::vec2(0.0f, 0.0f), Config::UI::SCORE_GAME_OVER_TEXT_SIZE, glm::vec4(1.0f));
 

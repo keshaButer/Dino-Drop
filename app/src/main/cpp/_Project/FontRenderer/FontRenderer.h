@@ -22,7 +22,7 @@ public:
     FontRenderer(const char* fontPath, int fontSize);
 
     void Initialize(const char* fontPath, int fontSize);
-    void RenderText(const std::string& text, glm::vec2 position, float scale, glm::vec4 color, bool centered = true);
+    void RenderText(const std::string& text, glm::vec2 position, float scale, glm::vec4 color, bool centered = true, float shadow = 0.02f);
     float CalculateTextWidth(const std::string& text, float scale);
 
 private:

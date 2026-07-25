@@ -167,6 +167,7 @@ namespace Config
         inline constexpr std::string_view GAME_OVER_SOUND = "GameOver";
         inline constexpr std::string_view MOVE_TETROMINO = "MoveTetromino";
         inline constexpr std::string_view ROTATE_TETROMINO = "RotateTetromino";
+        inline constexpr std::string_view BUTTON_PRESS = "ButtonPress";
     }
 
     namespace TextureNames
@@ -175,6 +176,9 @@ namespace Config
         inline constexpr std::string_view MENU_BUTTON_BG = "MenuButton";
         inline constexpr std::string_view SWITCH_BG = "SwitchBackground";
         inline constexpr std::string_view SWITCH_TUMBLER = "SwitchTumbler";
+        inline constexpr std::string_view PAUSE = "pause";
+        inline constexpr std::string_view PAUSE_BG = "pauseBG";
+        inline constexpr std::string_view GAME_OVER_BG = "gameoverBG";
     }
 
     namespace ShaderNames

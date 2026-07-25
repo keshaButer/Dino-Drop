@@ -12,16 +12,16 @@
 class Switch
 {
 public:
-    Switch(glm::vec2 _centerWorld, float _width, float _height, SpriteRenderer* _spriteRenderer, FontRenderer* _fontRenderer, bool& _targetFlag, std::string _text, float _textDistance = 1.2f) : 
+    Switch(glm::vec2 _centerWorld, glm::vec2 size, SpriteRenderer* _spriteRenderer, FontRenderer* _fontRenderer, bool& _targetFlag, std::string _text, float _textDistance = 1.2f) : 
         centerWorld(_centerWorld),
         tumblerPos(_centerWorld),
-        width(_width),
-        height(_height),
+        width(size.x),
+        height(size.y),
         spriteRenderer(_spriteRenderer),
         fontRenderer(_fontRenderer),
         text(_text),
         textDistance(_textDistance),
-        bgTexture(ResourceManager::Get().GetTexture(Config::TextureNames::MENU_BUTTON_BG)),
+        bgTexture(ResourceManager::Get().GetTexture(Config::TextureNames::SWITCH_BG)),
         tumblerTexture(ResourceManager::Get().GetTexture(Config::TextureNames::SWITCH_TUMBLER)),
         targetFlag(_targetFlag)
     {
@@ -66,7 +66,7 @@ public:
         if (!isActive) return;
 
         spriteRenderer->Draw(centerWorld, glm::vec2(width, height) * currentScale, 0, glm::vec4(1.0f), bgTexture);
-        spriteRenderer->Draw(tumblerPos, glm::vec2(height * 0.6f) * currentScale, 0, currentColor, tumblerTexture);
+        spriteRenderer->Draw(tumblerPos, glm::vec2(height * 0.8f) * currentScale, 0, currentColor, tumblerTexture);
         fontRenderer->RenderText(text, textPos, currentScale * 0.5f, glm::vec4(1.0f), false);
     }
 
@@ -114,7 +114,7 @@ private:
                 SettingsManager::Get().SaveSettings();
 
                 onSwitch.Invoke();
-                AudioManager::Get().PlayAudioClip(Config::Sound::MOVE_TETROMINO, false, 1.0f, 1.0f);
+                AudioManager::Get().PlayAudioClip(Config::Sound::BUTTON_PRESS, false, 1.0f, 1.0f);
             }
         }
     }

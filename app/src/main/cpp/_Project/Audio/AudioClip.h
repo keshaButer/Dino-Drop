@@ -7,6 +7,7 @@ struct AudioClip
 
     bool isPlaying = false;
     bool isLooped = false;
+    bool isUnstoppable = false;
 
     float playbackIndex = 0.0f;
 

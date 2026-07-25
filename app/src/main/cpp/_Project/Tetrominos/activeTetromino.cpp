@@ -66,7 +66,7 @@ void ActiveTetromino::Update(float deltaTime)
             wasValidLastFrame = false;
         }
 
-        if (isTraped || lockDelayTimer >= Config::Gameplay::LOCK_DELAY || (!isInput && dropTimer >= spawnInterval))
+        if (isTraped || lockDelayTimer >= Config::Gameplay::LOCK_DELAY)
         {
             squashY = Config::Gameplay::SQUASH_Y_FORCE * 1.2f;
             squashVelocity = Config::Gameplay::SQUASH_VELOCITY / 3.0f;
@@ -372,7 +372,7 @@ void ActiveTetromino::HandleHandledInput(float deltaX, float deltaY, bool isDrag
             if (IsPositionValid(row, nextCol, rotation))
             {
                 col = nextCol;
-                AudioManager::Get().PlayAudioClip(Config::Sound::MOVE_TETROMINO, false, 1.0f, Engine::Get().RandomRange(0.95f, 1.05f));
+                AudioManager::Get().PlayAudioClip(Config::Sound::MOVE_TETROMINO, false, 0.4f, Engine::Get().RandomRange(0.85f, 1.0f));
                 isFirstHorizontalStep = false;
                 isTraped = IsTraped();
                 ResetLockDelay();
@@ -387,7 +387,7 @@ void ActiveTetromino::HandleHandledInput(float deltaX, float deltaY, bool isDrag
             if (IsPositionValid(row, nextCol, rotation))
             {
                 col = nextCol;
-                AudioManager::Get().PlayAudioClip(Config::Sound::MOVE_TETROMINO, false, 1.0f, Engine::Get().RandomRange(0.95f, 1.05f));
+                AudioManager::Get().PlayAudioClip(Config::Sound::MOVE_TETROMINO, false, 0.4f, Engine::Get().RandomRange(0.95f, 1.05f));
                 isFirstHorizontalStep = false;
                 isTraped = IsTraped();
                 ResetLockDelay();
@@ -411,7 +411,6 @@ void ActiveTetromino::HandleHandledInput(float deltaX, float deltaY, bool isDrag
             {
                 row--;
                 dropTimer = 0.0f; 
-                AudioManager::Get().PlayAudioClip(Config::Sound::MOVE_TETROMINO, false, 1.0f, Engine::Get().RandomRange(0.95f, 1.05f));
                 isTraped = IsTraped();
             }
             accumulatedDy -= currentSensY;

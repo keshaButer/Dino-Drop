@@ -71,7 +71,7 @@ void DrawTetromino::Draw(int row, int col, int color, bool isGhost)
             glm::vec2(Config::Gameplay::BOARD_OFFSET_X - Config::Gameplay::CELL_SIZE * 0.5f + col * Config::Gameplay::CELL_SIZE, Config::Gameplay::BOARD_OFFSET_Y - Config::Gameplay::CELL_SIZE * 0.5f + row * Config::Gameplay::CELL_SIZE),
             glm::vec2(Config::Gameplay::CELL_SIZE - 0.025f, Config::Gameplay::CELL_SIZE - 0.025f),
             0.0f,
-            finalColor
+            glm::vec4(finalColor.r, finalColor.g, finalColor.b, 0.8f)
         );
     }
     else

@@ -35,6 +35,7 @@ private:
 
     Unique<Background> background;
     Unique<FontRenderer> textRenderer;
+    Unique<FontRenderer> titleRenderer;
     Unique<SpriteRenderer> spriteRenderer;
 
     Unique<Button> startButton;

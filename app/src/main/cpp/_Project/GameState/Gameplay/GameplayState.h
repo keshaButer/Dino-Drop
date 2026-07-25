@@ -14,6 +14,7 @@ class Button;
 class SpriteRenderer;
 class FontRenderer;
 class LockBar;
+class Texture;
 
 class GameplayState : public GameState
 {
@@ -38,5 +39,8 @@ private:
     Unique<Background> background;
     Unique<DrawScore> drawScore;
     Unique<LockBar> lockBar;
+    Unique<Button> restartButton;
+    Unique<Button> enterMenuButton;
     Camera* const mainCamera; 
+    Texture* pauseBG;
 };

@@ -23,5 +23,6 @@ private:
     Unique<Button> enterMenuButton;
     Unique<Background> background;
     Camera* const mainCamera;
+    Texture* BG = nullptr;
     StateData data;
 };

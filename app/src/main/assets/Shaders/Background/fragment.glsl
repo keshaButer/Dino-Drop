@@ -18,5 +18,5 @@ void main()
     vec3 blendedColor = texColor.rgb * uColor.rgb;
     float blendedAlpha = texColor.a * uColor.a;
 
-    FragColor = vec4(blendedColor.rgb, blendedAlpha);
+    FragColor = vec4(0.11f, 0.32, 1.0f, 1.0f);
 }
