@@ -57,6 +57,7 @@ namespace Config
         inline constexpr float TETROMINO_LEAN_SPEED = 15.0f;
         inline constexpr float SQUASH_Y_FORCE = 0.75f;
         inline constexpr float SQUASH_VELOCITY = -15.0f;
+        inline constexpr float PAUSE_DELAY_ON_CLEAR_LINE = 0.055f;
     }
     
     // === Цвета ===
@@ -187,5 +188,6 @@ namespace Config
         inline constexpr std::string_view DEFAULT_NO_TEXTURE = "DefaultNoTex";
         inline constexpr std::string_view LOCK_DELAY = "LockDelay";
         inline constexpr std::string_view GRID = "Grid";
+        inline constexpr std::string_view DEFAULT_TEXTURE_UI = "DefaultTexUI";
     }
 }

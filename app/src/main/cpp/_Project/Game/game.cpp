@@ -52,6 +52,7 @@ void Game::LoadShaders()
     shaderManager.LoadShader("Font");
     shaderManager.LoadShader(Config::ShaderNames::LOCK_DELAY);
     shaderManager.LoadShader(Config::ShaderNames::GRID);
+    shaderManager.LoadShader(Config::ShaderNames::DEFAULT_TEXTURE_UI, false);
 
     shaderManager.AttachAllToCamera(mainCamera);
     shaderManager.SetTextureSlotZeroToAll();

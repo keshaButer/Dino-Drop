@@ -45,7 +45,7 @@ DataCallbackResult AudioManager::onAudioReady(AudioStream* oboeStream, void* aud
     float data[numFrames];
     std::fill(data, data + numFrames, 0.0f);
 
-    bool isPaused = PauseManager::Get().IsPaused();
+    bool isPaused = PauseManager::Get().IsPausedUI();
     for (auto& [name, clip] : audioClips)
     {
         if (clip.isPlaying && ((!clip.isUnstoppable && !isPaused) || clip.isUnstoppable))

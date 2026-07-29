@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project("testrix")
+project("Dino Drop")
 
 add_library(native_app_glue STATIC
         ${ANDROID_NDK}/sources/android/native_app_glue/android_native_app_glue.c
@@ -12,7 +12,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_subdirectory(${OBOE_DIR} ./oboe)
 
-add_library(testrix SHARED
+add_library(DinoDrop SHARED
         native-lib.cpp
         _Project/Engine/engine.cpp
         _Project/Game/game.cpp
@@ -39,7 +39,7 @@ add_library(testrix SHARED
         _Project/LockDelayStatusBar/LockBar.cpp
 )
 
-target_include_directories(testrix PRIVATE
+target_include_directories(DinoDrop PRIVATE
         ${ANDROID_NDK}/sources/android/native_app_glue
         ${CMAKE_CURRENT_SOURCE_DIR}/_Project
         ${CMAKE_CURRENT_SOURCE_DIR}/_Project/SmartPointers
@@ -49,11 +49,11 @@ target_include_directories(testrix PRIVATE
         /home/kesha/oboe/include
 )
 
-target_link_options(testrix PRIVATE
+target_link_options(DinoDrop PRIVATE
         -Wl,--undefined=ANativeActivity_onCreate
 )
 
-target_link_libraries(testrix
+target_link_libraries(DinoDrop
         freetype
         native_app_glue
         android

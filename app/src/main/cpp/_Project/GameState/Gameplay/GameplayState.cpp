@@ -26,7 +26,7 @@ void GameplayState::OnContextRestored()
 
     background->texture = ResourceManager::Get().GetTexture(Config::TextureNames::GAMEPLAY_BACKGROUND);
 
-    Shader* shader = ShaderManager::Get().GetShader(Config::ShaderNames::DEFAULT_TEXTURE);
+    Shader* shader = ShaderManager::Get().GetShader(Config::ShaderNames::DEFAULT_TEXTURE_UI);
     spriteRenderer->shader = shader;
     spriteRenderer->SetTextureID(shader->textureID);
 
@@ -52,7 +52,7 @@ void GameplayState::Enter()
 
     pauseBG = ResourceManager::Get().GetTexture(Config::TextureNames::PAUSE_BG);
 
-    spriteRenderer = std::make_unique<SpriteRenderer>();
+    spriteRenderer = std::make_unique<SpriteRenderer>(ShaderManager::Get().GetShader(Config::ShaderNames::DEFAULT_TEXTURE_UI));
     fontRenderer = std::make_unique<FontRenderer>(Config::GetFontPathOTF("Base").c_str(), 128);
 
     glm::vec2 size = glm::vec2(0.9f, 0.4f);
@@ -120,7 +120,7 @@ void GameplayState::Update(float deltaTime)
 {
     pauseButton->Update(deltaTime);
 
-    if (!PauseManager::Get().IsPaused())
+    if (!PauseManager::Get().IsPausedUI())
     {
         mainCamera->Move(deltaTime);
         activeTetromino->Update(deltaTime);
@@ -139,7 +139,7 @@ void GameplayState::Update(float deltaTime)
 
     render->RenderFrame();
 
-    if (PauseManager::Get().IsPaused())
+    if (PauseManager::Get().IsPausedUI())
     {
         spriteRenderer->Draw(glm::vec2(0.0f), glm::vec2(2.0f, 1.5f), 0, glm::vec4(1.0f), pauseBG);
         fontRenderer->RenderText("Paused" , glm::vec2(0.0f, 0.1f), Config::UI::GAME_OVER_TEXT_SIZE, glm::vec4(1.0f));

@@ -143,6 +143,8 @@ int Board::ClearFullLines()
 
     if (fullLinesCount > 0)
     {
+        PauseManager::Get().SetPausedGameplay(true);
+        InvokeSystem::Get().Add(Config::Gameplay::PAUSE_DELAY_ON_CLEAR_LINE, [this]() { PauseManager::Get().SetPausedGameplay(false); });
         OnLinesCleard.Invoke(fullLinesCount);
         camera->TriggerShake(Config::Gameplay::SHAKE_INTENSY * fullLinesCount, Config::Gameplay::SHAKE_DURATION);
         AudioManager::Get().PlayAudioClip(Config::Sound::CLEAR_LINE_SOUND, false, 1.0f, Engine::Get().RandomRange(0.85f, 0.95f));

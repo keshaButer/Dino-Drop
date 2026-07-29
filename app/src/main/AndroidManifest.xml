@@ -4,20 +4,17 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="DinoDrop"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Testrix">
+        android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
 
-        <!-- Главный экран — NativeActivity, который загружает твою C++ библиотеку -->
         <activity android:name="android.app.NativeActivity"
             android:exported="true">
 
-            <!-- Указываем имя библиотеки (должно совпадать с project(testrix)) -->
             <meta-data android:name="android.app.lib_name"
-                android:value="testrix" />
+                android:value="DinoDrop" />
 
-            <!-- Говорим системе, что это главный экран приложения -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
