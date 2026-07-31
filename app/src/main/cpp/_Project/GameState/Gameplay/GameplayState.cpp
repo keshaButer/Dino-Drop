@@ -1,6 +1,7 @@
 #include "GameplayState.h"
 #include "../Render/render.h"
 #include "../Grid/grid.h"
+#include "../Score/HighScoreManager.h"
 #include "../Tetrominos/draw_tetromino.h"
 #include "../GameStateManager.h"
 #include "../MainMenu/MainMenuState.h"
@@ -151,5 +152,5 @@ void GameplayState::Update(float deltaTime)
 
 void GameplayState::Exit()
 {
-
+    HighScoreManager::Get().AddNewScore(ScoreManager::Get().GetCurrentScore());
 }

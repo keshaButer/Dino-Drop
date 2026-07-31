@@ -43,6 +43,8 @@ void MainMenuState::Enter()
     titleRenderer = std::make_unique<FontRenderer>(Config::GetFontPathOTF("Base").c_str(), 512);
     spriteRenderer = std::make_unique<SpriteRenderer>();
 
+    HighScoreManager::Get().Initialize();
+
     GameSettings& settings = SettingsManager::Get().GetSettingsMutable();
     InitializeSwitches(settings);
 
@@ -137,15 +139,17 @@ void MainMenuState::DrawButtons()
         {
             textRenderer->RenderText("PERSONAL BESTS", glm::vec2(0.0f, 1.5f), 0.7f, glm::vec4(1.0f));
 
-            const auto& scoresList = HighScoreManager::Get().LoadHighScores();
+            const auto& scoresList = HighScoreManager::Get().GetHighScores();
             float yOffset = 1.2f;
             int count = 1;
 
-            for (int i = static_cast<int>(scoresList.size()) - 1; i >= 0; i--)
+            for (auto score : scoresList)
             {
                 if (count > 10) break; 
-                std::string scoreLine = std::to_string(count) + ". " + std::to_string(scoresList[i]);
+
+                std::string scoreLine = std::to_string(count) + ". " + std::to_string(score);
                 textRenderer->RenderText(scoreLine, glm::vec2(0.0f, yOffset), 0.55f, glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
+
                 yOffset -= 0.20f;
                 count++;
             }

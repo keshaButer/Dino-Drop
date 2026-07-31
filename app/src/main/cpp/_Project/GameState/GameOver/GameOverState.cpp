@@ -8,7 +8,6 @@
 #include "../GameStateManager.h"
 #include "../Shaders/ShaderManager.h"
 #include "../Pause/PauseManager.h"
-#include "../Score/HighScoreManager.h"
 #include "../Gameplay/GameplayState.h"
 #include "../Audio/AudioManager.h"
 #include "../MainMenu/MainMenuState.h"
@@ -37,11 +36,6 @@ void GameOverState::OnContextRestored()
 void GameOverState::Enter()
 {
     Engine::Get().PrintInfo("GameOverState: Enter");
-
-    if (data.Score > HighScoreManager::Get().GetBestScore())
-    {
-        HighScoreManager::Get().AddNewScore(data.Score);
-    }
 
     background = std::make_unique<Background>(ResourceManager::Get().GetTexture(Config::TextureNames::GAMEPLAY_BACKGROUND));
 

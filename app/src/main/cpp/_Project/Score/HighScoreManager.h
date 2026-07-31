@@ -2,6 +2,7 @@
 #include <string>
 #include <fstream>
 #include <vector>
+#include <algorithm>
 #include "../Engine/engine.h"
 
 class HighScoreManager
@@ -12,41 +13,27 @@ public:
     void Initialize()
     {
         scores = LoadHighScores();
-
-        Engine::Get().PrintInfo("Score:\n");
-        Engine::Get().PrintInfo("-----------------");
-        for (auto score : scores)
-        {
-            std::string message = "\n" + std::to_string(score);
-            Engine::Get().PrintInfo(message.c_str());
-        }
-        Engine::Get().PrintInfo("-----------------");
     }
 
-    std::vector<int> LoadHighScores()
+    const std::vector<int>& GetHighScores() const
     {
-        std::string path = std::string(Engine::Get().GetInternalDataPath()) + "/highscores.txt";
-        std::vector<int> scores;
-        int tempScore = 0;
-
-        std::ifstream file(path);
-        if (file.is_open())
-        {
-            while (file >> tempScore)
-            {
-                scores.push_back(tempScore);
-            }
-            file.close();
-        }
         return scores;
     }
 
     void AddNewScore(int newScore)
     {
-        if (!scores.empty() && newScore <= scores.back()) return;
+        if (newScore <= 0)
+        {
+            Engine::Get().PrintInfo("HighScoreManager: can not add new score, it is too low: %i", newScore);
+            return;
+        }
 
         scores.push_back(newScore);
+        std::sort(scores.begin(), scores.end(), std::greater<int>());
+    }
 
+    void WriteToFile()
+    {
         std::string path = std::string(Engine::Get().GetInternalDataPath()) + "/highscores.txt";
         std::ofstream file(path);
         
@@ -64,11 +51,30 @@ public:
     {
         if (scores.empty()) return 0;
         
-        return scores.back();
+        return scores.front();
     }
 
 private:
     HighScoreManager() = default;
+
+    std::vector<int> LoadHighScores()
+    {
+        std::string path = std::string(Engine::Get().GetInternalDataPath()) + "/highscores.txt";
+
+        std::vector<int> loadedScores;
+        int tempScore = 0;
+
+        std::ifstream file(path);
+        if (file.is_open())
+        {
+            while (file >> tempScore)
+            {
+                loadedScores.push_back(tempScore);
+            }
+            file.close();
+        }
+        return loadedScores;
+    }
 
     std::vector<int> scores;
 };

@@ -2,6 +2,7 @@
 #include "GameStateManager.h"
 #include "../Engine/engine.h"
 #include "../Pause/PauseManager.h"
+#include "../Score/HighScoreManager.h"
 #include "../Score/ScoreManager.h"
 #include "../Audio/AudioManager.h"
 
@@ -16,13 +17,15 @@ void GameStateManager::ChangeState()
     mainCamera->ClearViewMatrix();
     Engine::Get().OnUIInput.Clear();
     Engine::Get().OnGameplayInput.Clear();
-    ScoreManager::Get().Reset();
     AudioManager::Get().Reset();
     PauseManager::Get().SetPaused(false);
 
     if (currentState != nullptr)
     {
         currentState->Exit();
+        HighScoreManager::Get().WriteToFile();
+        ScoreManager::Get().Reset();
+
         delete currentState;
     }
 
