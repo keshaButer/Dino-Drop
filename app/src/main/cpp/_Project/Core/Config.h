@@ -32,7 +32,7 @@ namespace Config
 
         inline constexpr float BACKGROUND_SPEED = 0.01f;
 
-        inline constexpr float DROP_INTERVAL = 0.5f;
+        inline constexpr float DROP_INTERVAL = 2.5f;
         inline constexpr float LOCK_DELAY = 1.0f;
         inline constexpr int MAX_LOCK_MOVES = 15;
         inline constexpr float RESET_INPUT_DELAY = 0.5f;

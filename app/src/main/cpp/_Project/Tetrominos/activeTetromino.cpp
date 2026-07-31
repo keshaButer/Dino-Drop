@@ -31,6 +31,7 @@ void ActiveTetromino::OnContextRestored()
 
 void ActiveTetromino::SpawnPiece()
 {
+    wasValidLastFrame = true;
     Engine::Get().PrintDebug("Spawn Piece");
     type = nextType;
     rotation = 0;
@@ -59,8 +60,6 @@ void ActiveTetromino::Update(float deltaTime)
     dropTimer += deltaTime;
     bool isValid = IsPositionValid(row - 1, col, rotation);
     
-    static bool wasValidLastFrame = true;
-
     if (!isValid)
     {
         lockDelayTimer += deltaTime;
@@ -69,17 +68,29 @@ void ActiveTetromino::Update(float deltaTime)
         {
             isTraped = IsTraped();
             wasValidLastFrame = false;
+
+            if (isTraped)
+            {
+                squashY = Config::Gameplay::SQUASH_Y_FORCE * 1.2f;
+                squashVelocity = Config::Gameplay::SQUASH_VELOCITY / 3.0f;
+
+                lockDelayTimer = 0.0f;
+                FreezePiece();
+                SetCurrentLevel();
+                SpawnPiece();
+                return;
+            }
         }
 
-        if (isTraped || lockDelayTimer >= Config::Gameplay::LOCK_DELAY)
+        if (lockDelayTimer >= Config::Gameplay::LOCK_DELAY)
         {
             squashY = Config::Gameplay::SQUASH_Y_FORCE * 1.2f;
             squashVelocity = Config::Gameplay::SQUASH_VELOCITY / 3.0f;
 
+            lockDelayTimer = 0.0f;
             FreezePiece();
             SetCurrentLevel();
             SpawnPiece();
-            lockDelayTimer = 0.0f;
         }
     }
     else 
@@ -544,15 +555,16 @@ void ActiveTetromino::HardDrop()
 
 
     SetLean();
-    FreezePiece();
-    SetCurrentLevel();
 
     dropTimer = 0.0f;
     lockMoveCount = 0;
     isInput = false;
 
-    SpawnPiece();
     lockDelayTimer = 0.0f;
+
+    FreezePiece();
+    SetCurrentLevel();
+    SpawnPiece();
 }
 
 void ActiveTetromino::SetLean()

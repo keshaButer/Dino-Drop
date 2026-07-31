@@ -22,6 +22,8 @@ public:
     float GetLockDelayTimer() const { return lockDelayTimer; }
 
 private:
+    bool wasValidLastFrame = true;
+    
     Board* const board;
     DrawTetromino* const tetrominoRenderer;
     Camera* const camera;
