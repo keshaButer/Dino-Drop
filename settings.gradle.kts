@@ -22,5 +22,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Testrix"
+rootProject.name = "DinoDrop"
 include(":app")

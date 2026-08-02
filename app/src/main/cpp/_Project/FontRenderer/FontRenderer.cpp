@@ -133,13 +133,16 @@ void FontRenderer::RenderText(const std::string& text, glm::vec2 position, float
             (character->Bearing.y - character->Size.y * 0.5f) * scale
         );
 
-        spriteRenderer.Draw(
-            alignedPos + offset - glm::vec2(0.0f, shadow),
-            glm::vec2(character->Size.x, -character->Size.y) * scale,
-            0,
-            glm::vec4(0.0f, 0.0f, 0.0f, 1.0f),
-            characters[c].texture.get()
-        );
+        if (shadow != 0.0f)
+        {
+            spriteRenderer.Draw(
+                alignedPos + offset - glm::vec2(0.0f, shadow),
+                glm::vec2(character->Size.x, -character->Size.y) * scale,
+                0,
+                glm::vec4(0.0f, 0.0f, 0.0f, 1.0f),
+                characters[c].texture.get()
+            );
+        }
 
         spriteRenderer.Draw(
             alignedPos + offset,

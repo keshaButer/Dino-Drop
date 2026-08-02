@@ -30,6 +30,7 @@ public:
         currentColor(color)
     { 
         board->OnLinesCleard.Subscribe([this](int lines) { this->Animate(); });
+        ScoreManager::Get().onAddScore.Subscribe([this](int addScore) { this->StartDrawAddScore(addScore); });
     }
 
     void OnContextRestored()
@@ -52,6 +53,8 @@ public:
             Config::UI::SCORE_TEXT_SCALE,
             currentColor
         );
+
+        DrawAddScore();
     }
 
     FontRenderer fontRenderer;
@@ -65,6 +68,49 @@ private:
     glm::vec4 currentColor;
 
     glm::vec4 colorYellow;
+
+    bool isDrawingAddScore;
+    std::string currentAddScore;
+    glm::vec2 addScorePos;
+    glm::vec4 addScoreColor;
+
+    void StartDrawAddScore(int addScore)
+    {
+        isDrawingAddScore = true;        
+        InvokeSystem::Get().Add(Config::UI::DELAY_HIDE_ADD_SCORE_TEXT, [this]() 
+            {
+                this->isDrawingAddScore = false; 
+            }
+        );
+
+        currentAddScore = std::to_string(addScore);
+
+        addScorePos = glm::vec2(0.0f, -1.3f);
+        glm::vec3 color = glm::vec3(
+            Config::Color::COLOR_ADD_SCORE_TEXT[0],
+            Config::Color::COLOR_ADD_SCORE_TEXT[1],
+            Config::Color::COLOR_ADD_SCORE_TEXT[2]
+        );
+
+        addScoreColor = glm::vec4(color.x, color.y, color.z, 0.0f);
+    }
+
+    void DrawAddScore()
+    {
+        if (!isDrawingAddScore) return;
+
+        addScorePos.y += Config::UI::SPEED_ADD_SCORE_TEXT * Engine::Get().GetDeltaTime();
+        addScoreColor.a += std::clamp(Config::UI::SPEED_ADD_SCORE_TEXT_ALPHA * Engine::Get().GetDeltaTime(), 0.0f, 1.0f);
+
+        fontRenderer.RenderText(
+            currentAddScore,
+            addScorePos,
+            Config::UI::SCORE_TEXT_SCALE * 1.3f,
+            addScoreColor,
+            true,
+            0.0f
+        );
+    }
 
     void Animate()
     {

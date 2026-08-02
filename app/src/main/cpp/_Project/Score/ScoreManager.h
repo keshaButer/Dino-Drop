@@ -17,7 +17,13 @@ public:
 
     int GetCurrentScore() const { return currentScore; }
 
-    void Reset() { currentScore = 0; }
+    void Reset() 
+    { 
+        currentScore = 0;
+        onAddScore.Clear();
+    }
+
+    Event<int> onAddScore;
 
 private:
 
@@ -43,6 +49,8 @@ private:
 
         currentScore += scoreFromLines;
         Engine::Get().PrintInfo("CURRENT SCORE HAS INCREASED: %i (Lines cleared: %i)", currentScore, fullLines);
+
+        onAddScore.Invoke(scoreFromLines);
     }
 
 };

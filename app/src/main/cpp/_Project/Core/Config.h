@@ -78,6 +78,7 @@ namespace Config
         };
 
         inline constexpr float COLOR_TETROMINO_O[] = {1.0f, 1.0f, 0.0f, 1.0f};
+        inline constexpr float COLOR_ADD_SCORE_TEXT[] = {1.0f, 1.0f, 0.0f};
     }
     
     // === Настройки рендера ===
@@ -163,6 +164,9 @@ namespace Config
         inline constexpr float FONT_MULTIPLIER = 0.35f;
         inline constexpr float GAME_OVER_TEXT_SIZE = 1.1f;
         inline constexpr float SCORE_GAME_OVER_TEXT_SIZE = 0.6f;
+        inline constexpr float SPEED_ADD_SCORE_TEXT = 2.0f;
+        inline constexpr float SPEED_ADD_SCORE_TEXT_ALPHA = 2.0f;
+        inline constexpr float DELAY_HIDE_ADD_SCORE_TEXT = 0.65f;
     }
 
     // Настройки звука
