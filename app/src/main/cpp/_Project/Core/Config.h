@@ -104,6 +104,12 @@ namespace Config
         return AUDIO_PATH + stringName + ".wav";
     }
 
+    inline std::string GetSoundPathOgg(const std::string_view& name) 
+    {
+        std::string stringName = (std::string)name;
+        return AUDIO_PATH + stringName + ".ogg";
+    }
+
     // === Пути к шрифтам ===
     inline const std::string FONT_PATH = "Fonts/";
     

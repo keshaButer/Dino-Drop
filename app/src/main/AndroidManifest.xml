@@ -7,7 +7,7 @@
         android:label="DinoDrop"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+        android:theme="@style/Theme.DinoDrop">
 
         <activity android:name="android.app.NativeActivity"
             android:exported="true">

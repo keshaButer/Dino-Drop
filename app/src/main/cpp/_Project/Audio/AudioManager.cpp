@@ -5,6 +5,10 @@
 #include "../Core/Config.h"
 #include "../Pause/PauseManager.h"
 
+extern "C" {
+    int stb_vorbis_decode_memory(...);
+}
+
 void AudioManager::Initialize()
 {
     AudioStreamBuilder builder;
@@ -117,6 +121,72 @@ void AudioManager::AddAudioClip(std::string name, AudioClip clip)
     }
 
     audioClips[name] = clip;
+}
+
+void AudioManager::LoadOggAudioClip(std::string_view viewName)
+{
+    std::string pathString = Config::GetSoundPathOgg(viewName);
+    const char* path = pathString.c_str();
+
+    std::string name = (std::string)viewName;
+    auto node = audioClips.find(name);
+
+    if (node != audioClips.end())
+    {
+        Engine::Get().PrintError("AudioManager: can not load clip, that name clip already exists: %s", name.c_str());
+        return;
+    }
+
+    auto* manager = Engine::Get().GetAssetManager();
+    AAsset* asset = AAssetManager_open(manager, path, AASSET_MODE_BUFFER);
+
+    if (!asset)
+    {
+        Engine::Get().PrintError("AudioManager: could not open asset: %s", path);
+    }
+
+    size_t compressedSize = AAsset_getLength(asset);
+    unsigned char* compressedBuffer = new unsigned char[compressedSize];
+    AAsset_read(asset, compressedBuffer, compressedSize);
+    AAsset_close(asset);
+
+    int channels;
+    int sampleRate;
+    short* rawBuffer = nullptr;
+
+    int decodedSamplesCount = stb_vorbis_decode_memory(
+        compressedBuffer,
+        static_cast<int>(compressedSize),
+        &channels,
+        &sampleRate,
+        &rawBuffer
+    );
+
+    if (decodedSamplesCount < 0)
+    {
+        Engine::Get().PrintError("AudioManager: Failed to decode OGG: %s", name.c_str());
+        delete[] compressedBuffer;
+        return;
+    }
+
+    size_t elementsCount = decodedSamplesCount * channels;
+
+    AudioClip clip
+    {
+        .isPlaying = false,
+        .playbackIndex = 0
+    };
+
+    clip.values.resize(elementsCount);
+    for (size_t i = 0; i < elementsCount; i++)
+    {
+        clip.values[i] = static_cast<float>(rawBuffer[i]) / 32768.0f;
+    }
+    
+    audioClips[name] = clip;
+
+    delete[] compressedBuffer;
+    free(rawBuffer);
 }
 
 void AudioManager::LoadWavAudioClip(std::string_view viewName)

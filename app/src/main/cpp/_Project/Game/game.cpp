@@ -64,7 +64,7 @@ void Game::LoadSounds()
     audioManager.LoadWavAudioClip(Config::Sound::TETROMINO_FREEZE_SOUND);
     audioManager.LoadWavAudioClip(Config::Sound::GAME_OVER_SOUND);
     audioManager.LoadWavAudioClip(Config::Sound::CLEAR_LINE_SOUND);
-    audioManager.LoadWavAudioClip(Config::Sound::GAMEPLAY_BG_MUSIC);
+    audioManager.LoadOggAudioClip(Config::Sound::GAMEPLAY_BG_MUSIC);
     audioManager.LoadWavAudioClip(Config::Sound::MOVE_TETROMINO);
     audioManager.LoadWavAudioClip(Config::Sound::ROTATE_TETROMINO);
     audioManager.LoadWavAudioClip(Config::Sound::BUTTON_PRESS);

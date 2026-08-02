@@ -14,6 +14,7 @@ add_subdirectory(${OBOE_DIR} ./oboe)
 
 add_library(DinoDrop SHARED
         native-lib.cpp
+        _Project/Plugins/stb_vorbis.c
         _Project/Engine/engine.cpp
         _Project/Game/game.cpp
         _Project/Render/render.cpp
