@@ -164,8 +164,9 @@ namespace Config
         inline constexpr float FONT_MULTIPLIER = 0.35f;
         inline constexpr float GAME_OVER_TEXT_SIZE = 1.1f;
         inline constexpr float SCORE_GAME_OVER_TEXT_SIZE = 0.6f;
+        inline constexpr float ADD_SCORE_TEXT_SIZE = 0.4f;
         inline constexpr float SPEED_ADD_SCORE_TEXT = 2.0f;
-        inline constexpr float SPEED_ADD_SCORE_TEXT_ALPHA = 2.0f;
+        inline constexpr float SPEED_ADD_SCORE_TEXT_ALPHA = 3.0f;
         inline constexpr float DELAY_HIDE_ADD_SCORE_TEXT = 0.65f;
     }
 

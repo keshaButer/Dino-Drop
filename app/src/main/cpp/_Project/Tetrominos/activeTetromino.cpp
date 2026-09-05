@@ -373,6 +373,7 @@ void ActiveTetromino::HandleHandledInput(float deltaX, float deltaY, bool isDrag
             if (col + localPoint.x == Config::Gameplay::BOARD_WIDTH - 1 || col + localPoint.x == 0)
             {
                 camera->MoveSide(deltaX);
+                break;
             }
         }
 

@@ -110,6 +110,52 @@ void FontRenderer::Initialize(const char* fontPath, int fontSize)
     glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
 }
 
+void FontRenderer::RenderText(const std::string& text, glm::vec2 position, glm::vec2 scale, glm::vec4 color, bool centered, float shadow)
+{
+    float horizontalOffset = 0.0f;
+
+    glm::vec2 alignedPos;
+    if (centered)
+    {
+        alignedPos = position - glm::vec2(CalculateTextWidth(text, scale.x), (characters[97].Bearing.y + 0.05f) * scale.y) * 0.5f;
+    }
+    else 
+    {
+        alignedPos = position - glm::vec2(0.0f, (characters[97].Bearing.y + 0.05f) * scale.y * 0.5f);
+    }
+
+    for (char c : text)
+    {
+        Character* character = &characters[c];
+
+        glm::vec2 offset(
+            character->Bearing.x * scale.x + horizontalOffset + (character->Size.x * scale.x) * 0.5f, 
+            (character->Bearing.y - character->Size.y * 0.5f) * scale.y
+        );
+
+        if (shadow != 0.0f)
+        {
+            spriteRenderer.Draw(
+                alignedPos + offset - glm::vec2(0.0f, shadow),
+                glm::vec2(character->Size.x, -character->Size.y) * scale,
+                0,
+                glm::vec4(0.0f, 0.0f, 0.0f, 1.0f),
+                characters[c].texture.get()
+            );
+        }
+
+        spriteRenderer.Draw(
+            alignedPos + offset,
+            glm::vec2(character->Size.x, -character->Size.y) * scale,
+            0,
+            color,
+            characters[c].texture.get()
+        );
+
+        horizontalOffset += character->Advance * scale.x;
+    }
+}
+
 void FontRenderer::RenderText(const std::string& text, glm::vec2 position, float scale, glm::vec4 color, bool centered, float shadow)
 {
     float horizontalOffset = 0.0f;

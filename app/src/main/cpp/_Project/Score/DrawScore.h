@@ -100,12 +100,12 @@ private:
         if (!isDrawingAddScore) return;
 
         addScorePos.y += Config::UI::SPEED_ADD_SCORE_TEXT * Engine::Get().GetDeltaTime();
-        addScoreColor.a += std::clamp(Config::UI::SPEED_ADD_SCORE_TEXT_ALPHA * Engine::Get().GetDeltaTime(), 0.0f, 1.0f);
+        addScoreColor.a += std::clamp(Config::UI::SPEED_ADD_SCORE_TEXT_ALPHA * Engine::Get().GetDeltaTime(), 0.0f, 0.7f);
 
         fontRenderer.RenderText(
             currentAddScore,
             addScorePos,
-            Config::UI::SCORE_TEXT_SCALE * 1.3f,
+            Config::UI::ADD_SCORE_TEXT_SIZE * glm::vec2(1.0f, 0.65f),
             addScoreColor,
             true,
             0.0f
