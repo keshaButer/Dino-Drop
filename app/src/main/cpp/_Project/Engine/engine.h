@@ -37,6 +37,7 @@ public:
     const char* GetInternalDataPath() const { return app->activity->internalDataPath; }
     bool IsContextReady() const { return isContextReady; }
     float RandomRange(float a, float b);
+    int GetRandomNumber();
     glm::vec2 WorldToScreen(glm::vec2 worldPos, const glm::mat4& cameraView);
     glm::vec2 ScreenToWorld(glm::vec2 pixelPos);
 

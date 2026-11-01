@@ -10,6 +10,7 @@ public:
     ActiveTetromino(Board* board, DrawTetromino* renderer, Camera* camera);
     void OnContextRestored();
 
+    int GetRandomTypeFromPouch();
     void Update(float deltaTime);
     void SetCurrentLevel();
     void HandleInput(int32_t action, float deltaX, float deltaY);
@@ -84,4 +85,8 @@ private:
 
     float targetLeanAngle = 0.0f;
     float currentLeanAngle = 0.0f;
+
+    int pouchLength = 14;
+    float* doublePouch = new float[pouchLength] { 0, 1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 6 };
+    int pouchPointer = 15;
 };

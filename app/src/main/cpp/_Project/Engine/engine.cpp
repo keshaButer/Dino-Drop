@@ -4,10 +4,10 @@
 #include <chrono>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <random>
 #include "../Resources/resource_manager.h"
 #include "../Audio/AudioManager.h"
 #include "../Pause/PauseManager.h"
-#include <chrono>
 
 int Engine::Initialize()
 {
@@ -78,6 +78,12 @@ float Engine::RandomRange(float a, float b)
 {
     std::uniform_real_distribution<float> volumeDist(a, b);
     return volumeDist(g_RandomEngine);
+}
+
+int Engine::GetRandomNumber()
+{
+    std::uniform_int_distribution value;
+    return value(g_RandomEngine);
 }
 
 void Engine::Update()

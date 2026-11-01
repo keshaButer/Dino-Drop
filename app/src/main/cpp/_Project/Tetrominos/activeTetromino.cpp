@@ -20,8 +20,32 @@ camera(camera), ghostShader(ShaderManager::Get().GetShader("GhostFX"))
         [this](int32_t action, float x, float y) { this->HandleInput(action, x, y); }
     );
 
-    nextType = rand() % 7;
+    nextType = GetRandomTypeFromPouch();
     SpawnPiece();
+}
+
+int ActiveTetromino::GetRandomTypeFromPouch()
+{
+    int randomType;
+
+    if (pouchPointer >= pouchLength)
+    {
+        for (int i = pouchLength - 1; i > 0; --i)
+        {
+            int j = Engine::Get().GetRandomNumber() % (i + 1);
+            std::swap(doublePouch[i], doublePouch[j]);
+        }
+        
+        Engine::Get().PrintInfo("ПЕРЕМЕШАЛИ ДВОЙНОЙ МЕШОЧЕК");
+
+        pouchPointer = 0;
+    }
+
+    randomType = doublePouch[pouchPointer];
+    
+    pouchPointer++;
+
+    return randomType;
 }
 
 void ActiveTetromino::OnContextRestored()
@@ -38,10 +62,7 @@ void ActiveTetromino::SpawnPiece()
     row = Config::Gameplay::BOARD_HEIGHT - 2;
     col = (Config::Gameplay::BOARD_WIDTH / 2) - 2;
 
-    while (nextType == type)
-    {
-        nextType = rand() % 7;
-    }
+    nextType = GetRandomTypeFromPouch();
 
     if (!IsPositionValid(row - 1, col, rotation))
     {
