@@ -82,7 +82,7 @@ private:
 
     glm::vec4 currentColor;
     glm::vec4 defaultColor = glm::vec4(1.0f);
-    glm::vec4 pressedColor = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
+    glm::vec4 pressedColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 
     float width;
     float height;

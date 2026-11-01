@@ -56,7 +56,7 @@ private:
 
     std::mt19937 g_RandomEngine;
 
-    const char* LogTag = "Testrix";
+    const char* LogTag = "DinoDrop";
     void HandleEvents();
     void UpdateTime();
 };

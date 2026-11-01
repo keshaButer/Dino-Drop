@@ -21,7 +21,7 @@ public:
     {
         waveCenterY = static_cast<float>(targetRow) / static_cast<float>(Config::Gameplay::BOARD_HEIGHT);
         waveRadius = 0.0f;
-        waveIntensity = 1.0f;
+        waveIntensity = 1.7f;
     }
 
 private:

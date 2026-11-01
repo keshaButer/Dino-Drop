@@ -40,6 +40,7 @@ private:
     float rotZ = 0.0f;
     float offsetX = 0.0f;
     float offsetY = 0.0f;
+    glm::vec2 staticOffset = glm::vec2(0.0f, -0.25f);
     bool isShakeY = false;
     bool isCameraOnTop = true;
 

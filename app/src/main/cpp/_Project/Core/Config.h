@@ -32,7 +32,7 @@ namespace Config
 
         inline constexpr float BACKGROUND_SPEED = 0.01f;
 
-        inline constexpr float DROP_INTERVAL = 2.5f;
+        inline constexpr float DROP_INTERVAL = 1.5f;
         inline constexpr float LOCK_DELAY = 1.0f;
         inline constexpr int MAX_LOCK_MOVES = 15;
         inline constexpr float RESET_INPUT_DELAY = 0.5f;
@@ -44,7 +44,7 @@ namespace Config
 
         inline constexpr float BUTTON_PERFORM_DELAY = 0.1f;
 
-        inline constexpr float HARD_DROP_COOLDOWN = 0.5f;
+        inline constexpr float HARD_DROP_COOLDOWN = 0.25f;
 
         inline constexpr float SHAKE_INTENSY = 0.0f;
         inline constexpr float SHAKE_DURATION = 0.45f;
@@ -59,7 +59,8 @@ namespace Config
         inline constexpr float TETROMINO_LEAN_SPEED = 15.0f;
         inline constexpr float SQUASH_Y_FORCE = 0.75f;
         inline constexpr float SQUASH_VELOCITY = -15.0f;
-        inline constexpr float PAUSE_DELAY_ON_CLEAR_LINE = 0.055f;
+
+        inline constexpr float PAUSE_DELAY_ON_CLEAR_LINE = 0.065f;
     }
     
     // === Цвета ===
@@ -130,7 +131,7 @@ namespace Config
     {
         // Базовая чувствительность (чем МЕНЬШЕ число, тем БЫСТРЕЕ двигается фигура)
         inline constexpr float DRAG_SENSITIVITY_X = 50.0f; // Переводим в экранные пиксели для предсказуемости
-        inline constexpr float DRAG_SENSITIVITY_Y = 70.0f; 
+        inline constexpr float DRAG_SENSITIVITY_Y = 57.0f; 
 
         // Мультипликатор для ПЕРВОГО шага (0.5f означает, что первый блок сдвинется в 2 раза легче)
         inline constexpr float FIRST_STEP_SENSITIVITY_SCALE = 0.5f;

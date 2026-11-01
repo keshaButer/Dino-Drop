@@ -176,10 +176,17 @@ void ActiveTetromino::Draw()
         Config::Color::TETROMINO_COLORS[baseColor + 2],
         1.0f
     );
+
     float cellSize = static_cast<float>(Config::Gameplay::CELL_SIZE);
+
     for (int i = 0; i < 4; i++)
     {
         Point localPoint = TETROMINO_SHAPES[type][rotation][i];
+
+        if (row + localPoint.y + 1 > Config::Gameplay::BOARD_HEIGHT)
+        {
+            continue;
+        }
         
         float localX = static_cast<float>(localPoint.x) * cellSize;
         float localY = static_cast<float>(localPoint.y) * cellSize;
@@ -429,6 +436,7 @@ void ActiveTetromino::HandleHandledInput(float deltaX, float deltaY, bool isDrag
             if (IsPositionValid(row - 1, col, rotation))
             {
                 row--;
+                AudioManager::Get().PlayAudioClip(Config::Sound::MOVE_TETROMINO, false, 0.4f, Engine::Get().RandomRange(0.85f, 1.0f));
                 dropTimer = 0.0f; 
                 isTraped = IsTraped();
             }

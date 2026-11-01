@@ -53,7 +53,7 @@ void Camera::Move(float deltaTime)
     CalculateLean(deltaTime);
 
     view = glm::mat4(1);
-    view = glm::translate(view, glm::vec3(posX + offsetX, posY + offsetY, 0));
+    view = glm::translate(view, glm::vec3(posX + offsetX + staticOffset.x, posY + offsetY + staticOffset.y, 0));
     view = glm::rotate(view, glm::radians(currentRotZ), glm::vec3(0, 0, 1));
 
     for (const auto& shader : shaders)

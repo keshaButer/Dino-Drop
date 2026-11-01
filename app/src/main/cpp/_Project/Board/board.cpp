@@ -109,8 +109,6 @@ int Board::ClearFullLines()
             FXSystem::Get().AddEffect(std::make_unique<LineNeonFlash>(r, glm::vec3(1), flashShader));
             FXSystem::Get().AddLateEffect(std::make_unique<ParticleExplosion>(r, glm::vec3(1), particlesShader));
 
-            grid->TriggerWave(r);
-
             fullLines[fullLinesCount] = r;
             fullLinesCount++;
 
@@ -122,6 +120,7 @@ int Board::ClearFullLines()
     }
 
     InvokeSystem::Get().Add(Config::Gameplay::SHAKE_DURATION - 0.1f, [=]() {
+
     for (int i = fullLinesCount - 1; i >= 0; i--)
     {
         int row = fullLines[i];
@@ -143,6 +142,7 @@ int Board::ClearFullLines()
 
     if (fullLinesCount > 0)
     {
+        grid->TriggerWave(fullLines[0]);
         PauseManager::Get().SetPausedGameplay(true);
         InvokeSystem::Get().Add(Config::Gameplay::PAUSE_DELAY_ON_CLEAR_LINE, [this]() { PauseManager::Get().SetPausedGameplay(false); });
         OnLinesCleard.Invoke(fullLinesCount);

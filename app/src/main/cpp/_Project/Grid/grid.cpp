@@ -93,8 +93,8 @@ void Grid::Draw()
     float dt = Engine::Get().GetUnscaledDeltaTime();
     if (waveIntensity > 0.0f)
     {
-        waveRadius += 1.8f * dt;
-        waveIntensity -= 2.2f * dt;
+        waveRadius += 0.8f * dt;
+        waveIntensity -= 1.0f * dt;
         if (waveIntensity < 0.0f) waveIntensity = 0.0f;
     }
 
