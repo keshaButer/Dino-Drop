@@ -58,6 +58,7 @@ void ActiveTetromino::SpawnPiece()
 void ActiveTetromino::Update(float deltaTime)
 {
     dropTimer += deltaTime;
+    hardDropTimer += deltaTime;
     bool isValid = IsPositionValid(row - 1, col, rotation);
     
     if (!isValid)
@@ -340,7 +341,8 @@ void ActiveTetromino::HandleInput(int32_t action, float touchX, float touchY)
 
             if (totalDistY > Config::Control::HARD_DROP_DISTANCE &&
                 std::abs(totalDistY) > std::abs(totalDistX) &&
-                duration < Config::Control::HARD_DROP_INTERVAL)
+                duration < Config::Control::HARD_DROP_INTERVAL &&
+                hardDropTimer >= Config::Gameplay::HARD_DROP_COOLDOWN)
             {
                 CancelHorizontalMove();
                 HardDrop();
@@ -526,7 +528,7 @@ int ActiveTetromino::GetPieceWidth()
 
 void ActiveTetromino::HardDrop()
 {
-    camera->TriggerShakeY();
+    hardDropTimer = 0.0f;
 
     squashY = Config::Gameplay::SQUASH_Y_FORCE;
     squashVelocity = Config::Gameplay::SQUASH_VELOCITY;
@@ -554,8 +556,11 @@ void ActiveTetromino::HardDrop()
         color
     ));
 
-
-    SetLean();
+    if (SettingsManager::Get().GetSettings().isTriggerY)
+    {
+        camera->TriggerShakeY();
+        SetLean();
+    }
 
     dropTimer = 0.0f;
     lockMoveCount = 0;

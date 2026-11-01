@@ -53,6 +53,7 @@ private:
     int maxY = -1;
 
     float dropTimer = 0.0f;
+    float hardDropTimer = 0.0f;
 
     void SpawnPiece();
     void FreezePiece();

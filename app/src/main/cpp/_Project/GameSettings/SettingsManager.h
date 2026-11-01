@@ -9,6 +9,7 @@ struct GameSettings
     bool isSFXEnabled = true;
     bool isGhostEnabled = true;
     bool isOutlineEnabled = true;
+    bool isTriggerY = true;
 };
 
 class SettingsManager

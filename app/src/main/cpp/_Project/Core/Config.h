@@ -44,6 +44,8 @@ namespace Config
 
         inline constexpr float BUTTON_PERFORM_DELAY = 0.1f;
 
+        inline constexpr float HARD_DROP_COOLDOWN = 0.5f;
+
         inline constexpr float SHAKE_INTENSY = 0.0f;
         inline constexpr float SHAKE_DURATION = 0.45f;
         inline constexpr float STREGTH_MOVE_BOARD_SIDE = 0.2f;
@@ -105,7 +107,7 @@ namespace Config
         return AUDIO_PATH + stringName + ".wav";
     }
 
-    inline std::string GetSoundPathOgg(const std::string_view& name) 
+    inline std::string GetSoundPathOgg(const std::string_view& name)
     {
         std::string stringName = (std::string)name;
         return AUDIO_PATH + stringName + ".ogg";

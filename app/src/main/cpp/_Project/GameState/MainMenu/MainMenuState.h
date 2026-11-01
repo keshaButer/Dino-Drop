@@ -48,6 +48,7 @@ private:
     Unique<Switch> musicSwitch;
     Unique<Switch> ghostSwitch;
     Unique<Switch> outlineSwitch;
+    Unique<Switch> triggerY;
 
     Camera* const mainCamera;
 };

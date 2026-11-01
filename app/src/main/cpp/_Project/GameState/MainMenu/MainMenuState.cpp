@@ -33,6 +33,7 @@ void MainMenuState::OnContextRestored()
     musicSwitch->OnContextRestore();
     ghostSwitch->OnContextRestore();
     outlineSwitch->OnContextRestore();
+    triggerY->OnContextRestore();
 }
 
 void MainMenuState::Enter()
@@ -94,6 +95,7 @@ void MainMenuState::UpdateButtons(float deltaTime)
             musicSwitch->isActive = true;
             ghostSwitch->isActive = true;
             outlineSwitch->isActive = true;
+            triggerY->isActive = true;
             backButton->isActive = true;
         } break;
     }
@@ -106,6 +108,7 @@ void MainMenuState::UpdateButtons(float deltaTime)
     musicSwitch->Update(deltaTime);
     ghostSwitch->Update(deltaTime);
     outlineSwitch->Update(deltaTime);
+    triggerY->Update(deltaTime);
 }
 
 void MainMenuState::DisableAllButtons()
@@ -118,6 +121,7 @@ void MainMenuState::DisableAllButtons()
     musicSwitch->isActive = false;
     ghostSwitch->isActive = false;
     outlineSwitch->isActive = false;
+    triggerY->isActive = false;
 }
 
 void MainMenuState::DrawButtons()
@@ -168,6 +172,7 @@ void MainMenuState::DrawButtons()
             musicSwitch->Draw();
             ghostSwitch->Draw();
             outlineSwitch->Draw();
+            triggerY->Draw();
             backButton->Draw();
         } break;
     }
@@ -176,15 +181,6 @@ void MainMenuState::DrawButtons()
 void MainMenuState::InitializeSwitches(GameSettings& settings)
 {
     glm::vec2 size = glm::vec2(0.3f, 0.2f);
-    outlineSwitch = std::make_unique<Switch>(
-        glm::vec2(0.75f, 0.9f),
-        size,
-        spriteRenderer.get(),
-        textRenderer.get(),
-        settings.isOutlineEnabled,
-        "Outline",
-        1.65f
-    );
 
     musicSwitch = std::make_unique<Switch>(
         glm::vec2(0.75f, 1.5f),
@@ -203,6 +199,26 @@ void MainMenuState::InitializeSwitches(GameSettings& settings)
         textRenderer.get(),
         settings.isGhostEnabled,
         "Ghost",
+        1.65f
+    );
+
+    outlineSwitch = std::make_unique<Switch>(
+        glm::vec2(0.75f, 0.9f),
+        size,
+        spriteRenderer.get(),
+        textRenderer.get(),
+        settings.isOutlineEnabled,
+        "Outline",
+        1.65f
+    );
+
+    triggerY = std::make_unique<Switch>(
+        glm::vec2(0.75f, 0.6f),
+        size,
+        spriteRenderer.get(),
+        textRenderer.get(),
+        settings.isTriggerY,
+        "Shake Board",
         1.65f
     );
 }
